@@ -5,11 +5,11 @@ using WebStore.Models;
 
 namespace WebStore.Controllers
 {
-    public class ProductController : Controller
+    public class ShopController : Controller
     {
-        List<ProductViewModel> _products;
+        readonly List<ProductViewModel> _products;
         
-        public ProductController()
+        public ShopController()
         {
             _products = new List<ProductViewModel>()
             {
@@ -36,9 +36,14 @@ namespace WebStore.Controllers
             return View(_products);
         }
 
-        public IActionResult Details(int id)
+        public IActionResult View(int id)
         {
             return View(_products.FirstOrDefault(p => p.Id == id));
+        }
+
+        public IActionResult Cart()
+        {
+            return View();
         }
     }
 }

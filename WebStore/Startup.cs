@@ -16,6 +16,7 @@ namespace WebStore
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRouting(options => options.LowercaseUrls = true);
             services.AddMvc();
         }
 
@@ -26,6 +27,10 @@ namespace WebStore
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 
