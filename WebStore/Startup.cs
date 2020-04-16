@@ -18,7 +18,7 @@ namespace WebStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRouting(options => options.LowercaseUrls = true);
-            services.AddMvc();
+            services.AddMvc(options => options.Filters.Add(typeof(SomeActionFilter)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
