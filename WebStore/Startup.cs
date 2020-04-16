@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebStore.Infrastructure;
+using WebStore.Infrastructure.Interfaces;
+using WebStore.Infrastructure.Services;
+using WebStore.Models;
 
 namespace WebStore
 {
@@ -19,6 +22,8 @@ namespace WebStore
         {
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddMvc(options => options.Filters.Add(typeof(SomeActionFilter)));
+
+            services.AddSingleton<IEntityService<EmployeeViewModel>, InMemoryEmployeeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
