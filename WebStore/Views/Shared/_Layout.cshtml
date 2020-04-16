@@ -25,11 +25,11 @@
 </head><!--/head-->
 
 <body>
-@await Html.PartialAsync("_Header")
-
+    @await Html.PartialAsync("_HeaderPartial")
+    
     @RenderBody()
 
-    @await Html.PartialAsync("_Footer")
+    @await Html.PartialAsync("_FooterPartial")
 
     <script src="~/js/jquery.js"></script>
     <script src="~/js/price-range.js"></script>
