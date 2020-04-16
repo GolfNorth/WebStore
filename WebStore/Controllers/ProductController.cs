@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Models;
 
@@ -8,7 +10,7 @@ namespace WebStore.Controllers
     public class ProductController : Controller
     {
         List<ProductViewModel> _products;
-        
+
         public ProductController()
         {
             _products = new List<ProductViewModel>()
@@ -30,7 +32,7 @@ namespace WebStore.Controllers
             };
 
         }
-        
+
         public IActionResult Index()
         {
             return View(_products);
