@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebStore.Infrastructure;
 
 namespace WebStore
 {
@@ -29,6 +30,8 @@ namespace WebStore
             }
 
             app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
+
+            app.UseMiddleware<TokenMiddleware>();
 
             app.UseStaticFiles();
 
