@@ -3,44 +3,79 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebStore.Infrastructure.Interfaces;
 using WebStore.Models;
 
 namespace WebStore.Controllers
 {
+    [Route("products")]
     public class ProductController : Controller
     {
-        List<ProductViewModel> _products;
+        private readonly IEntityService<ProductViewModel> _productService;
 
-        public ProductController()
+        public ProductController(IEntityService<ProductViewModel> productService)
         {
-            _products = new List<ProductViewModel>()
-            {
-                new ProductViewModel()
-                {
-                    Id = 1,
-                    Name = "Туалетная бумага",
-                    Description = "Незаменимая вещь в период пандемии",
-                    Price = 199.9m
-                },
-                new ProductViewModel()
-                {
-                    Id = 2,
-                    Name = "Гречка",
-                    Description = "Еда на вес золота",
-                    Price = 59.9m
-                }
-            };
+            _productService = productService;
 
         }
 
         public IActionResult Index()
         {
-            return View(_products);
+            return View(_productService.GetAll());
         }
 
-        public IActionResult Details(int id)
+        [Route("{id}")]
+        public IActionResult View(int id)
         {
-            return View(_products.FirstOrDefault(p => p.Id == id));
+            return View(_productService.GetById(id));
+        }
+
+        [Route("edit/{id?}")]
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (!id.HasValue)
+                return View(new ProductViewModel());
+
+            var model = _productService.GetById(id.Value);
+            if (model == null)
+                return NotFound();// возвращаем результат 404 Not Found
+
+
+            return View(model);
+        }
+
+        [Route("edit/{id?}")]
+        [HttpPost]
+        public IActionResult Edit(ProductViewModel model)
+        {
+            if (model.Id > 0) // если есть Id, то редактируем модель
+            {
+                var dbItem = _productService.GetById(model.Id);
+
+                if (ReferenceEquals(dbItem, null))
+                    return NotFound();// возвращаем результат 404 Not Found
+
+                dbItem.Name = model.Name;
+                dbItem.Description = model.Description;
+                dbItem.Price = model.Price;
+            }
+            else // иначе добавляем модель в список
+            {
+                _productService.AddNew(model);
+            }
+            _productService.Commit(); // станет актуальным позднее (когда добавим БД)
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Route("delete/{id}")]
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            _productService.Delete(id);
+
+            return RedirectToAction("Index");
         }
     }
 }
