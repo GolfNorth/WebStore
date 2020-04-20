@@ -2,7 +2,7 @@
 
 namespace WebStore.Models
 {
-    public class ShopViewModel
+    public class CatalogViewModel
     {
         public int? BrandId { get; set; }
         public int? CategoryId { get; set; }

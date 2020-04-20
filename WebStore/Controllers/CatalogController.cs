@@ -6,21 +6,22 @@ using WebStore.Models;
 
 namespace WebStore.Controllers
 {
-    public class ShopController : Controller
+    public class CatalogController : Controller
     {
         private readonly IProductService _productService;
 
-        public ShopController(IProductService productService)
+        public CatalogController(IProductService productService)
         {
             _productService = productService;
         }
-        
+
+        [Route("shop")]
         public IActionResult Index(int? categoryId, int? brandId)
         {
             var products = _productService.GetProducts(
                 new ProductFilter { BrandId = brandId, CategoryId = categoryId });
 
-            var model = new ShopViewModel()
+            var model = new CatalogViewModel()
             {
                 BrandId = brandId,
                 CategoryId = categoryId,
@@ -38,12 +39,14 @@ namespace WebStore.Controllers
             return View(model);
         }
 
+        [Route("product/{id}")]
         public IActionResult View(int id)
         {
             return View();
             //return View(((IEntityService<ProductViewModel>) _productService).GetById(id));
         }
 
+        [Route("cart")]
         public IActionResult Cart()
         {
             return View();
