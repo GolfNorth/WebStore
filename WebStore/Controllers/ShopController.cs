@@ -10,9 +10,9 @@ namespace WebStore.Controllers
     {
         private readonly IProductService _productService;
 
-        public ShopController(IEntityService<ProductViewModel> productService)
+        public ShopController(IProductService productService)
         {
-            _productService = productService as IProductService;
+            _productService = productService;
         }
         
         public IActionResult Index(int? categoryId, int? brandId)
