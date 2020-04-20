@@ -1,24 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using WebStore.Domain.Entities.Base.Interfaces;
 using WebStore.Infrastructure.Interfaces;
-using WebStore.Models;
 
 namespace WebStore.Infrastructure.Services
 {
-    public abstract class InMemoryEntityService<T> : IEntityService<T> where T : BaseViewModel
+    public abstract class InMemoryEntityService<T> : IEntityService<T> where T : IBaseEntity
     {
-        protected List<T> _entities;
+        protected List<T> Entities;
 
-        public IEnumerable<T> GetAll() => _entities;
+        public IEnumerable<T> GetAll()
+        {
+            return Entities;
+        }
 
-        public T GetById(int id) => _entities.FirstOrDefault(e => e.Id == id);
+        public T GetById(int id)
+        {
+            return Entities.FirstOrDefault(e => e.Id == id);
+        }
 
-        public void Commit() { }
+        public void Commit()
+        {
+        }
 
         public void AddNew(T entity)
         {
-            entity.Id = _entities.Max(e => e.Id) + 1;
-            _entities.Add(entity);
+            entity.Id = Entities.Max(e => e.Id) + 1;
+            Entities.Add(entity);
         }
 
         public void Delete(int id)
@@ -28,7 +36,7 @@ namespace WebStore.Infrastructure.Services
             if (entity is null)
                 return;
 
-            _entities.Remove(entity);
+            Entities.Remove(entity);
         }
     }
 }

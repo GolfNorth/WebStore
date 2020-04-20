@@ -1,39 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebStore.Models;
+﻿using System.Collections.Generic;
+using WebStore.Domain.Entities.Base.Interfaces;
 
 namespace WebStore.Infrastructure.Interfaces
 {
-    public interface IEntityService<T> where T : BaseViewModel
+    public interface IEntityService<T> where T : IBaseEntity
     {
         /// <summary>
-        /// Получение списка сотрудников
+        ///     Получение списка сотрудников
         /// </summary>
         /// <returns></returns>
         IEnumerable<T> GetAll();
 
         /// <summary>
-        /// Получение сотрудника по id
+        ///     Получение сотрудника по id
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns></returns>
         T GetById(int id);
 
         /// <summary>
-        /// Сохранить изменения
+        ///     Сохранить изменения
         /// </summary>
         void Commit();
 
         /// <summary>
-        /// Добавить нового
+        ///     Добавить нового
         /// </summary>
         /// <param name="model"></param>
         void AddNew(T model);
 
         /// <summary>
-        /// Удалить
+        ///     Удалить
         /// </summary>
         /// <param name="id"></param>
         void Delete(int id);

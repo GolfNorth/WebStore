@@ -7,7 +7,8 @@ namespace WebStore.Infrastructure.Services
     {
         public InMemoryEmployeeService()
         {
-            _entities = new List<EmployeeViewModel> {
+            Entities = new List<EmployeeViewModel>
+            {
                 new EmployeeViewModel
                 {
                     Id = 1,
