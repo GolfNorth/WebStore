@@ -6,6 +6,8 @@
 <div class="container">
     <h1>Сотрудники</h1>
 
+    <a asp-action="Edit" class="btn btn-success">Добавить</a>
+
     <table class="table">
         <tr>
             <th>#</th>
@@ -22,7 +24,9 @@
                 <td>@employee.SurName</td>
                 <td>@employee.Patronymic</td>
                 <td>
-                    <a asp-controller="Employee" asp-action="Details" asp-route-id="@employee.Id">Детали</a>
+                    <a asp-action="View" asp-route-id="@employee.Id" class="btn btn-success">Детали</a>
+                    <a asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-warning">Редактировать</a>
+                    <a asp-action="Delete" asp-route-id="@employee.Id" class="btn btn-danger">Удалить</a>
                 </td>
             </tr>
         }

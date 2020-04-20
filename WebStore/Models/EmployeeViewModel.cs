@@ -1,8 +1,7 @@
 ﻿namespace WebStore.Models
 {
-    public class EmployeeViewModel
+    public class EmployeeViewModel : BaseViewModel
     {
-        public int Id { get; set; }
         public string FirstName { get; set; }
         public string SurName { get; set; }
         public string Patronymic { get; set; }

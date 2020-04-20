@@ -1,8 +1,7 @@
 ﻿namespace WebStore.Models
 {
-    public class ProductViewModel
+    public class ProductViewModel : BaseViewModel
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }

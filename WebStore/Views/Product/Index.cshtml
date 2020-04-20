@@ -3,9 +3,10 @@
     ViewData["Title"] = "Продукты";
 }
 
-
 <div class="container">
     <h1>Продукты</h1>
+
+    <a asp-action="Edit" class="btn btn-success">Добавить</a>
 
     <table class="table">
         <tr>
@@ -23,7 +24,9 @@
                 <td>@product.Description</td>
                 <td>@product.Price</td>
                 <td>
-                    <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id">Детали</a>
+                    <a asp-action="View" asp-route-id="@product.Id" class="btn btn-success">Детали</a>
+                    <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning">Редактировать</a>
+                    <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Удалить</a>
                 </td>
             </tr>
         }
