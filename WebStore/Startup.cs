@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebStore.Domain.Entities;
 using WebStore.Infrastructure;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Services;
@@ -24,7 +25,7 @@ namespace WebStore
             services.AddMvc(options => options.Filters.Add(typeof(SomeActionFilter)));
 
             services.AddSingleton<IEntityService<EmployeeViewModel>, InMemoryEmployeeService>();
-            services.AddSingleton<IEntityService<ProductViewModel>, InMemoryProductService>();
+            services.AddSingleton<IProductService, InMemoryProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,7 +38,7 @@ namespace WebStore
 
             app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
 
-            app.UseMiddleware<TokenMiddleware>();
+            //app.UseMiddleware<TokenMiddleware>();
 
             app.UseStaticFiles();
 

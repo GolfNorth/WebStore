@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace WebStore.Infrastructure
 {
     public class TokenMiddleware
     {
-        private const string correctToken = "qwerty123";
-
-        public RequestDelegate Next { get; }
+        private const string CorrectToken = "qwerty123";
 
         public TokenMiddleware(RequestDelegate next)
         {
             Next = next;
         }
+
+        public RequestDelegate Next { get; }
 
         public async Task InvokeAsync(HttpContext context)
         {
@@ -27,15 +24,12 @@ namespace WebStore.Infrastructure
                 await Next.Invoke(context);
                 return;
             }
-            if (token == correctToken)
-            {
+
+            if (token == CorrectToken)
                 // обрабатываем токен...
                 await Next.Invoke(context);
-            }
             else
-            {
                 await context.Response.WriteAsync("Token is incorrect");
-            }
         }
     }
 }

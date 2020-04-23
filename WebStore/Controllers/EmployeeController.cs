@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Models;
 
@@ -50,6 +48,11 @@ namespace WebStore.Controllers
         // GET: /employees/edit/{id}
         public IActionResult Edit(EmployeeViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             if (model.Id > 0) // если есть Id, то редактируем модель
             {
                 var dbItem = _employeesService.GetById(model.Id);

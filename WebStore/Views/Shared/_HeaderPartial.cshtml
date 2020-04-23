@@ -64,7 +64,7 @@
                             <li><a asp-controller="Profile" asp-action="Index"><i class="fa fa-user"></i> Профиль</a></li>
                             <li><a asp-controller="Profile" asp-action="Wishlist"><i class="fa fa-star"></i> Избранное</a></li>
                             <li><a asp-controller="Profile" asp-action="Checkout"><i class="fa fa-crosshairs"></i> Оформить заказ</a></li>
-                            <li><a asp-controller="Shop" asp-action="Cart"><i class="fa fa-shopping-cart"></i> Корзина</a></li>
+                            <li><a asp-controller="Catalog" asp-action="Cart"><i class="fa fa-shopping-cart"></i> Корзина</a></li>
                             <li><a asp-controller="Profile" asp-action="Login"><i class="fa fa-lock"></i> Войти</a></li>
                         </ul>
                     </div>
@@ -89,12 +89,11 @@
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a asp-controller="Home" asp-action="Index">Главная</a></li>
-                            <li><a asp-controller="Shop" asp-action="Index">Каталог</a></li>
-                            <li><a asp-controller="Shop" asp-action="View" asp-route-id="1">Страница товара</a></li>
+                            <li><a asp-controller="Catalog" asp-action="Index">Каталог</a></li>
+                            <li><a asp-controller="Catalog" asp-action="View" asp-route-id="1">Страница товара</a></li>
                             <li><a asp-controller="Blog" asp-action="Index">Блог</a></li>
                             <li><a asp-controller="Home" asp-action="ContactUs">Контакты</a></li>
                             <li><a asp-controller="Employee" asp-action="Index">Сотрудники</a></li>
-                            <li><a asp-controller="Product" asp-action="Index">Продукты</a></li>
                         </ul>
                     </div>
                 </div>
