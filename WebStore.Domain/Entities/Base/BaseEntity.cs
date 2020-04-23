@@ -1,4 +1,5 @@
-﻿using WebStore.Domain.Entities.Base.Interfaces;
+﻿using System.ComponentModel.DataAnnotations;
+using WebStore.Domain.Entities.Base.Interfaces;
 
 namespace WebStore.Domain.Entities.Base
 {
@@ -7,6 +8,7 @@ namespace WebStore.Domain.Entities.Base
     /// </summary>
     public abstract class BaseEntity : IBaseEntity
     {
+        [Key]
         public int Id { get; set; }
     }
 }
