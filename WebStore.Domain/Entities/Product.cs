@@ -1,4 +1,5 @@
-﻿using WebStore.Domain.Entities.Base;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using WebStore.Domain.Entities.Base;
 using WebStore.Domain.Entities.Base.Interfaces;
 
 namespace WebStore.Domain.Entities
@@ -29,5 +30,11 @@ namespace WebStore.Domain.Entities
         public decimal Price { get; set; }
 
         public int Order { get; set; }
+
+        [ForeignKey("CategoryId")]
+        public virtual Category Category { get; set; }
+
+        [ForeignKey("BrandId")]
+        public virtual Brand Brand { get; set; }
     }
 }
