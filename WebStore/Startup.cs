@@ -81,15 +81,15 @@ namespace WebStore
 
             app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
 
-            //app.UseMiddleware<TokenMiddleware>();
-
             app.UseStaticFiles();
-
-            app.UseAuthentication();
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
+
+            //app.UseMiddleware<TokenMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
