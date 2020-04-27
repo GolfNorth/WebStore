@@ -77,7 +77,7 @@ namespace WebStore.Controllers
 
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpGet]
         public async Task<IActionResult> SignOut()
         {
             await _signInManager.SignOutAsync();
