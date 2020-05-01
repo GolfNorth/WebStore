@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Models;
 
 namespace WebStore.Controllers
 {
     [Route("employees")]
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly IEntityService<EmployeeViewModel> _employeesService;
@@ -14,6 +16,7 @@ namespace WebStore.Controllers
             _employeesService = employeesService;
         }
 
+        [AllowAnonymous]
         // GET: /employees
         public IActionResult Index()
         {
@@ -21,6 +24,7 @@ namespace WebStore.Controllers
         }
 
         [Route("{id}")]
+        [Authorize(Roles = "Admins,Users")]
         // GET: /employees/{id}
         public IActionResult View(int id)
         {
@@ -29,6 +33,7 @@ namespace WebStore.Controllers
 
         [Route("edit/{id?}")]
         [HttpGet]
+        [Authorize(Roles = "Admins")]
         // GET: /employees/edit/{id}
         public IActionResult Edit(int? id)
         {
@@ -45,6 +50,7 @@ namespace WebStore.Controllers
 
         [Route("edit/{id?}")]
         [HttpPost]
+        [Authorize(Roles = "Admins")]
         // GET: /employees/edit/{id}
         public IActionResult Edit(EmployeeViewModel model)
         {
@@ -77,6 +83,7 @@ namespace WebStore.Controllers
 
         [Route("delete/{id}")]
         [HttpGet]
+        [Authorize(Roles = "Admins")]
         // GET: /employees/delete/{id}
         public IActionResult Delete(int id)
         {
