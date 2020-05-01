@@ -45,11 +45,5 @@ namespace WebStore.Controllers
             return View();
             //return View(((IEntityService<ProductViewModel>) _productService).GetById(id));
         }
-
-        [Route("cart")]
-        public IActionResult Cart()
-        {
-            return View();
-        }
     }
 }

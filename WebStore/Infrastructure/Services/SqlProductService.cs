@@ -28,10 +28,13 @@ namespace WebStore.Infrastructure.Services
         public IEnumerable<Product> GetProducts(ProductFilter filter)
         {
             var query = _context.Products.AsQueryable();
+
             if (filter.BrandId.HasValue)
-                query = query.Where(c => c.BrandId.HasValue && c.BrandId.Value.Equals(filter.BrandId.Value));
+                query = query.Where(p => p.BrandId.HasValue && p.BrandId.Value.Equals(filter.BrandId.Value));
             if (filter.CategoryId.HasValue)
-                query = query.Where(c => c.CategoryId.Equals(filter.CategoryId.Value));
+                query = query.Where(p => p.CategoryId.Equals(filter.CategoryId.Value));
+            if (filter.Ids.Count > 0)
+                query = query.Where(p => filter.Ids.Contains(p.Id));
 
             return query.ToList();
         }

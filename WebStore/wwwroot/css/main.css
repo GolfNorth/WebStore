@@ -773,7 +773,7 @@ h2.title {
 }
 
 
-.productinfo p {
+.productinfo p, .productinfo a {
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
     font-weight: 400;
