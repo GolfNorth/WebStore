@@ -63,7 +63,7 @@ namespace WebStore.Controllers
             {
                 var dbItem = _employeesService.GetEmployee(model.Id);
 
-                if (ReferenceEquals(dbItem, null))
+                if (dbItem == null)
                     return NotFound();// возвращаем результат 404 Not Found
 
                 dbItem.FirstName = model.FirstName;
