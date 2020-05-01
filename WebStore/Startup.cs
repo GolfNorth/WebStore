@@ -69,7 +69,7 @@ namespace WebStore
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IEntityService<EmployeeViewModel>, InMemoryEmployeeService>();
+            services.AddSingleton<IEmployeeService, InMemoryEmployeeService>();
 
             services.AddScoped<IProductService, SqlProductService>();
             services.AddScoped<ICartService, CookieCartService>();

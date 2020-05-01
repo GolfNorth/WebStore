@@ -1,4 +1,4 @@
-﻿@model WebStore.Models.CartViewModel
+﻿@model CartViewModel
 @{
     ViewData["Title"] = "Корзина";
 }
@@ -39,7 +39,6 @@
                                     <a asp-action="View"
                                        asp-controller="Catalog"
                                        asp-route-id="@item.Key.Id">
-
                                         @item.Key.Name
                                     </a>
 

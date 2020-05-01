@@ -3,11 +3,11 @@ using System.Linq;
 using WebStore.Domain;
 using WebStore.Domain.Entities;
 using WebStore.Infrastructure.Interfaces;
-using WebStore.Models;
 
 namespace WebStore.Infrastructure.Services
 {
-    public class InMemoryProductService : InMemoryEntityService<ProductViewModel>, IProductService
+
+    public class InMemoryProductService : IProductService
     {
         private readonly List<Brand> _brands;
         private readonly List<Category> _categories;
@@ -424,6 +424,26 @@ namespace WebStore.Infrastructure.Services
                     .ToList();
 
             return products;
+        }
+
+        public Product GetProduct(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Commit()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void AddNew(Product product)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Delete(int id)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

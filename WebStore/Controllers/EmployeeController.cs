@@ -9,9 +9,9 @@ namespace WebStore.Controllers
     [Authorize]
     public class EmployeeController : Controller
     {
-        private readonly IEntityService<EmployeeViewModel> _employeesService;
+        private readonly IEmployeeService _employeesService;
 
-        public EmployeeController(IEntityService<EmployeeViewModel> employeesService)
+        public EmployeeController(IEmployeeService employeesService)
         {
             _employeesService = employeesService;
         }
@@ -20,7 +20,7 @@ namespace WebStore.Controllers
         // GET: /employees
         public IActionResult Index()
         {
-            return View(_employeesService.GetAll());
+            return View(_employeesService.GetEmployees());
         }
 
         [Route("{id}")]
@@ -28,7 +28,7 @@ namespace WebStore.Controllers
         // GET: /employees/{id}
         public IActionResult View(int id)
         {
-            return View(_employeesService.GetById(id));
+            return View(_employeesService.GetEmployee(id));
         }
 
         [Route("edit/{id?}")]
@@ -40,7 +40,7 @@ namespace WebStore.Controllers
             if (!id.HasValue)
                 return View(new EmployeeViewModel());
 
-            var model = _employeesService.GetById(id.Value);
+            var model = _employeesService.GetEmployee(id.Value);
             if (model == null)
                 return NotFound();// возвращаем результат 404 Not Found
 
@@ -61,7 +61,7 @@ namespace WebStore.Controllers
 
             if (model.Id > 0) // если есть Id, то редактируем модель
             {
-                var dbItem = _employeesService.GetById(model.Id);
+                var dbItem = _employeesService.GetEmployee(model.Id);
 
                 if (ReferenceEquals(dbItem, null))
                     return NotFound();// возвращаем результат 404 Not Found
