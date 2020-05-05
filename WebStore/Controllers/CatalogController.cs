@@ -42,7 +42,7 @@ namespace WebStore.Controllers
         [Route("product/{id}")]
         public IActionResult View(int id)
         {
-            var product = _productService.GetProduct(id);
+            var product = _productService.GetProductById(id);
 
             return View(new ProductViewModel()
             {
