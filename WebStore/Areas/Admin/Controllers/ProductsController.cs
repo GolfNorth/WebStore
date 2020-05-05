@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +17,13 @@ namespace WebStore.Areas.Admin.Controllers
     public class ProductsController : Controller
     {
         private readonly WebStoreContext _context;
+        private readonly IWebHostEnvironment _appEnvironment;
+        private const string ImagePath = "/images/shop/";
 
-        public ProductsController(WebStoreContext context)
+        public ProductsController(WebStoreContext context, IWebHostEnvironment appEnvironment)
         {
             _context = context;
+            _appEnvironment = appEnvironment;
         }
 
         // GET: Admin/Products
@@ -60,16 +66,24 @@ namespace WebStore.Areas.Admin.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryId,BrandId,ImageUrl,Price,Order,Id,Name")] Product product)
+        public async Task<IActionResult> Create([Bind("CategoryId,BrandId,ImageUrl,Price,Order,Id,Name")] Product product, IFormFile imageFile)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
+                if (imageFile != null) // Обработка загруженного файла
+                {
+                    product.ImageUrl = $"product{product.Id}{Path.GetExtension(imageFile.FileName)}";
+                    await using var fileStream = new FileStream(_appEnvironment.WebRootPath + ImagePath + product.ImageUrl, FileMode.Create);
+                    await imageFile.CopyToAsync(fileStream);
+                    await _context.SaveChangesAsync();
+                }
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Id", product.BrandId);
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
+
             return View(product);
         }
 
@@ -96,7 +110,7 @@ namespace WebStore.Areas.Admin.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,BrandId,ImageUrl,Price,Order,Id,Name")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,BrandId,ImageUrl,Price,Order,Id,Name")] Product product, IFormFile imageFile)
         {
             if (id != product.Id)
             {
@@ -109,6 +123,13 @@ namespace WebStore.Areas.Admin.Controllers
                 {
                     _context.Update(product);
                     await _context.SaveChangesAsync();
+                    if (imageFile != null) // Обработка загруженного файла
+                    {
+                        product.ImageUrl = $"product{product.Id}{Path.GetExtension(imageFile.FileName)}";
+                        await using var fileStream = new FileStream(_appEnvironment.WebRootPath + ImagePath + product.ImageUrl, FileMode.Create);
+                        await imageFile.CopyToAsync(fileStream);
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -154,6 +175,8 @@ namespace WebStore.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Products.FindAsync(id);
+            var imageFile = new FileInfo(_appEnvironment.WebRootPath + ImagePath + product.ImageUrl);
+            if (imageFile.Exists) imageFile.Delete();
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
