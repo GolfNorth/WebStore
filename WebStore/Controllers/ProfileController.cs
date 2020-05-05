@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities;
+using WebStore.Infrastructure.Interfaces;
 using WebStore.Models;
 
 namespace WebStore.Controllers
@@ -10,11 +13,13 @@ namespace WebStore.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IOrdersService _ordersService;
 
-        public ProfileController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public ProfileController(UserManager<User> userManager, SignInManager<User> signInManager, IOrdersService ordersService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _ordersService = ordersService;
         }
 
         public IActionResult Index()
@@ -83,6 +88,26 @@ namespace WebStore.Controllers
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Orders()
+        {
+            var orders = _ordersService.GetUserOrders(User.Identity.Name);
+            var orderModels = new List<UserOrderViewModel>(orders.Count());
+
+            foreach (var order in orders)
+            {
+                orderModels.Add(new UserOrderViewModel()
+                {
+                    Id = order.Id,
+                    Name = order.Name,
+                    Address = order.Address,
+                    Phone = order.Phone,
+                    TotalSum = order.OrderItems.Sum(o => o.Price * o.Quantity)
+                });
+            }
+
+            return View(orderModels);
         }
 
         public IActionResult Wishlist()
