@@ -42,14 +42,17 @@ namespace WebStore.Controllers
         [Route("product/{id}")]
         public IActionResult View(int id)
         {
-            return View();
-            //return View(((IEntityService<ProductViewModel>) _productService).GetById(id));
-        }
+            var product = _productService.GetProduct(id);
 
-        [Route("cart")]
-        public IActionResult Cart()
-        {
-            return View();
+            return View(new ProductViewModel()
+            {
+                Id = product.Id,
+                Brand = product.Brand.Name,
+                ImageUrl = product.ImageUrl,
+                Name = product.Name,
+                Order = product.Order,
+                Price = product.Price
+            });
         }
     }
 }

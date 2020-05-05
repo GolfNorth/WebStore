@@ -1,4 +1,4 @@
-﻿@*model ProductViewModel *@
+﻿@model ProductViewModel
 @{
     ViewData["Title"] = "Товар";
 }
@@ -13,10 +13,10 @@
                     <!--product-details-->
                     <div class="col-sm-5">
                         <div class="view-product">
-                            <img src="~/images/product-details/1.jpg" alt="" />
+                            <img src="~/images/shop/@Model.ImageUrl" alt="" />
                             <h3>ZOOM</h3>
                         </div>
-                        <div id="similar-product" class="carousel slide" data-ride="carousel">
+                        @*<div id="similar-product" class="carousel slide" data-ride="carousel">
 
                             <!-- Wrapper for slides -->
                             <div class="carousel-inner">
@@ -45,8 +45,7 @@
                             <a class="right item-control" href="#similar-product" data-slide="next">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        </div>
-
+                        </div>*@
                     </div>
                     <div class="col-sm-7">
                         <div class="product-information">
@@ -56,17 +55,17 @@
                             <p>Web ID: 1089772</p>
                             <img src="~/images/product-details/rating.png" alt="" />
                             <span>
-                                <span>US $59</span>
-                                <label>Quantity:</label>
-                                <input type="text" value="3" />
-                                <button type="button" class="btn btn-fefault cart">
+                                <span>@Model.Price.ToString("C")</span>
+                                @*<label>Quantity:</label>
+                                <input type="text" value="3" />*@
+                                <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Id" asp-route-returnUrl="@Context.Request.Path" class="btn btn-fefault cart">
                                     <i class="fa fa-shopping-cart"></i>
-                                    Add to cart
-                                </button>
+                                    В корзину
+                                </a>
                             </span>
                             <p><b>Availability:</b> In Stock</p>
                             <p><b>Condition:</b> New</p>
-                            <p><b>Brand:</b> E-SHOPPER</p>
+                            <p><b>Brand:</b> @Model.Brand</p>
                             <a href=""><img src="~/images/product-details/share.png" class="share img-responsive" alt="" /></a>
                         </div><!--/product-information-->
                     </div>

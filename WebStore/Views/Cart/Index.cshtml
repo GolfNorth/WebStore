@@ -1,4 +1,4 @@
-﻿
+﻿@model CartViewModel
 @{
     ViewData["Title"] = "Корзина";
 }
@@ -24,82 +24,63 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="~/images/cart/one.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td class="cart_product">
+                                <a asp-action="View"
+                                   asp-controller="Catalog"
+                                   asp-route-id="@item.Key.Id">
+                                    <img src="~/images/shop/@item.Key.ImageUrl" alt="@item.Key.Name">
+                                </a>
+                            </td>
+                            <td class="cart_description">
+                                <h4>
+                                    <a asp-action="View"
+                                       asp-controller="Catalog"
+                                       asp-route-id="@item.Key.Id">
+                                        @item.Key.Name
+                                    </a>
 
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="~/images/cart/two.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="cart_product">
-                            <a href=""><img src="~/images/cart/three.png" alt=""></a>
-                        </td>
-                        <td class="cart_description">
-                            <h4><a href="">Colorblock Scuba</a></h4>
-                            <p>Web ID: 1089772</p>
-                        </td>
-                        <td class="cart_price">
-                            <p>$59</p>
-                        </td>
-                        <td class="cart_quantity">
-                            <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href=""> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                <a class="cart_quantity_down" href=""> - </a>
-                            </div>
-                        </td>
-                        <td class="cart_total">
-                            <p class="cart_total_price">$59</p>
-                        </td>
-                        <td class="cart_delete">
-                            <a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
-                        </td>
-                    </tr>
+                                </h4>
+                                <p>Web ID: @item.Key.Id</p>
+                            </td>
+                            <td class="cart_price">
+                                <p>@(item.Key.Price.ToString("C"))</p>
+                            </td>
+                            <td class="cart_quantity">
+                                <div class="cart_quantity_button">
+                                    <a asp-controller="Cart"
+                                       asp-action="AddToCart"
+                                       asp-route-id="@item.Key.Id"
+                                       asp-route-returnUrl="@Context.Request.Path"
+                                       class="cart_quantity_up">
+                                        +
+                                    </a>
+
+                                    <input class="cart_quantity_input" type="text" name="quantity" value="@Model.ItemsCount" autocomplete="off" size="2">
+                                    <a asp-controller="Cart"
+                                       asp-action="DecrementFromCart"
+                                       asp-route-id="@item.Key.Id"
+                                       class="cart_quantity_down">
+                                        -
+                                    </a>
+                                </div>
+                            </td>
+                            <td class="cart_total">
+                                @((item.Value * item.Key.Price).ToString("C"))
+                            </td>
+                            <td class="cart_delete">
+                                <a class="cart_quantity_delete"
+                                   asp-controller="Cart"
+                                   asp-action="RemoveFromCart"
+                                   asp-route-id="@item.Key.Id">
+                                    <i class="fa fa-times"></i>
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using WebStore.DAL;
 using WebStore.Domain;
 using WebStore.Domain.Entities;
@@ -15,6 +16,7 @@ namespace WebStore.Infrastructure.Services
         {
             _context = context;
         }
+
         public IEnumerable<Category> GetCategories()
         {
             return _context.Categories.ToList();
@@ -27,13 +29,47 @@ namespace WebStore.Infrastructure.Services
 
         public IEnumerable<Product> GetProducts(ProductFilter filter)
         {
-            var query = _context.Products.AsQueryable();
+            var query = _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .AsQueryable();
+
             if (filter.BrandId.HasValue)
-                query = query.Where(c => c.BrandId.HasValue && c.BrandId.Value.Equals(filter.BrandId.Value));
+                query = query.Where(p => p.BrandId.HasValue && p.BrandId.Value.Equals(filter.BrandId.Value));
             if (filter.CategoryId.HasValue)
-                query = query.Where(c => c.CategoryId.Equals(filter.CategoryId.Value));
+                query = query.Where(p => p.CategoryId.Equals(filter.CategoryId.Value));
+            if (filter.Ids.Count > 0)
+                query = query.Where(p => filter.Ids.Contains(p.Id));
 
             return query.ToList();
+        }
+
+        public Product GetProduct(int id)
+        {
+            return _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .FirstOrDefault(p => p.Id == id);
+        }
+
+        public void Commit()
+        {
+            _context.SaveChanges();
+        }
+
+        public void AddNew(Product entity)
+        {
+            if (entity.Id > 0) return;
+
+            _context.Products.Add(entity);
+        }
+
+        public void Delete(int id)
+        {
+            var dbItem = GetProduct(id);
+
+            if (dbItem != null)
+                _context.Entry(dbItem).State = EntityState.Deleted;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace WebStore.Domain
+﻿using System.Collections.Generic;
+
+namespace WebStore.Domain
 {
     /// <summary>
     ///     Класс для фильтрации товаров
@@ -14,5 +16,7 @@
         ///     Бренд фильтра
         /// </summary>
         public int? BrandId { get; set; }
+
+        public List<int> Ids { get; set; } = new List<int>();
     }
 }

@@ -1,41 +1,46 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Models;
 
 namespace WebStore.Controllers
 {
     [Route("employees")]
+    [Authorize]
     public class EmployeeController : Controller
     {
-        private readonly IEntityService<EmployeeViewModel> _employeesService;
+        private readonly IEmployeeService _employeesService;
 
-        public EmployeeController(IEntityService<EmployeeViewModel> employeesService)
+        public EmployeeController(IEmployeeService employeesService)
         {
             _employeesService = employeesService;
         }
 
+        [AllowAnonymous]
         // GET: /employees
         public IActionResult Index()
         {
-            return View(_employeesService.GetAll());
+            return View(_employeesService.GetEmployees());
         }
 
         [Route("{id}")]
+        [Authorize(Roles = "Admins,Users")]
         // GET: /employees/{id}
         public IActionResult View(int id)
         {
-            return View(_employeesService.GetById(id));
+            return View(_employeesService.GetEmployee(id));
         }
 
         [Route("edit/{id?}")]
         [HttpGet]
+        [Authorize(Roles = "Admins")]
         // GET: /employees/edit/{id}
         public IActionResult Edit(int? id)
         {
             if (!id.HasValue)
                 return View(new EmployeeViewModel());
 
-            var model = _employeesService.GetById(id.Value);
+            var model = _employeesService.GetEmployee(id.Value);
             if (model == null)
                 return NotFound();// возвращаем результат 404 Not Found
 
@@ -45,6 +50,7 @@ namespace WebStore.Controllers
 
         [Route("edit/{id?}")]
         [HttpPost]
+        [Authorize(Roles = "Admins")]
         // GET: /employees/edit/{id}
         public IActionResult Edit(EmployeeViewModel model)
         {
@@ -55,9 +61,9 @@ namespace WebStore.Controllers
 
             if (model.Id > 0) // если есть Id, то редактируем модель
             {
-                var dbItem = _employeesService.GetById(model.Id);
+                var dbItem = _employeesService.GetEmployee(model.Id);
 
-                if (ReferenceEquals(dbItem, null))
+                if (dbItem == null)
                     return NotFound();// возвращаем результат 404 Not Found
 
                 dbItem.FirstName = model.FirstName;
@@ -77,6 +83,7 @@ namespace WebStore.Controllers
 
         [Route("delete/{id}")]
         [HttpGet]
+        [Authorize(Roles = "Admins")]
         // GET: /employees/delete/{id}
         public IActionResult Delete(int id)
         {
