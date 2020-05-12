@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebStore.Models
+namespace WebStore.ViewModels.Identity
 {
     public class SignUpViewModel
     {

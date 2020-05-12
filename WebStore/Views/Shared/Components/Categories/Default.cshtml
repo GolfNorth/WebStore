@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebStore.Models.CategoryViewModel>
+﻿@model IEnumerable<WebStore.ViewModels.CategoryViewModel>
 
 <h2>Категории</h2>
 <div class="panel-group category-products" id="accordian">
@@ -22,7 +22,7 @@
                             @foreach (var childCategory in parentCategory.ChildCategories)
                             {
                                 <li>
-                                    <a asp-controller="Shop" asp-action="Index"
+                                    <a asp-controller="Catalog" asp-action="Index"
                                        asp-route-categoryId="@childCategory.Id">@childCategory.Name</a>
                                 </li>
                             }
@@ -36,7 +36,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a asp-controller="Shop" asp-action="Index"
+                        <a asp-controller="Catalog" asp-action="Index"
                            asp-route-categoryId="@parentCategory.Id">@parentCategory.Name</a>
                     </h4>
                 </div>

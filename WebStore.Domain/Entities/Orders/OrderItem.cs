@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using WebStore.Domain.Entities.Base;
 
-namespace WebStore.Domain.Entities
+namespace WebStore.Domain.Entities.Orders
 {
     public class OrderItem : BaseEntity
     {

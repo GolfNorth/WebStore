@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EmployeeViewModel>
+﻿@model IEnumerable<WebStore.ViewModels.EmployeeViewModel>
 @{
     ViewData["Title"] = "Сотрудники";
     var isAdmin = User.IsInRole("Admins");
@@ -23,7 +23,7 @@
             <tr>
                 <td>@employee.Id</td>
                 <td>@employee.FirstName</td>
-                <td>@employee.SurName</td>
+                <td>@employee.SecondName</td>
                 <td>@employee.Patronymic</td>
                 <td>
                     <a asp-action="View" asp-route-id="@employee.Id" class="btn btn-success">Детали</a>

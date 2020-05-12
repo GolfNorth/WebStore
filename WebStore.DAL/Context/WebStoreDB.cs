@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebStore.Domain.Entities;
+using WebStore.Domain.Entities.Identity;
+using WebStore.Domain.Entities.Orders;
 
-namespace WebStore.DAL
+namespace WebStore.DAL.Context
 {
     public class WebStoreDB : IdentityDbContext<User>
     {

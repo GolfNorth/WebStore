@@ -1,8 +1,11 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain;
+using WebStore.Domain.Entities;
 using WebStore.Infrastructure.Interfaces;
+using WebStore.Infrastructure.Mapping;
 using WebStore.Models;
+using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
@@ -25,15 +28,7 @@ namespace WebStore.Controllers
             {
                 BrandId = brandId,
                 CategoryId = categoryId,
-                Products = products.Select(p => new ProductViewModel()
-                    {
-                        Id = p.Id,
-                        ImageUrl = p.ImageUrl,
-                        Name = p.Name,
-                        Order = p.Order,
-                        Price = p.Price
-                    }).OrderBy(p => p.Order)
-                    .ToList()
+                Products = products.Select(ProductMapping.ToView).OrderBy(p => p.Order)
             };
 
             return View(model);
@@ -44,15 +39,7 @@ namespace WebStore.Controllers
         {
             var product = _productService.GetProductById(id);
 
-            return View(new ProductViewModel()
-            {
-                Id = product.Id,
-                Brand = product.Brand.Name,
-                ImageUrl = product.ImageUrl,
-                Name = product.Name,
-                Order = product.Order,
-                Price = product.Price
-            });
+            return View(product.ToView());
         }
     }
 }

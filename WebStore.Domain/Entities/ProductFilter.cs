@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WebStore.Domain
+namespace WebStore.Domain.Entities
 {
     /// <summary>
     ///     Класс для фильтрации товаров

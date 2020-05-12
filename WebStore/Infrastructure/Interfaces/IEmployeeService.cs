@@ -5,13 +5,13 @@ namespace WebStore.Infrastructure.Interfaces
 {
     public interface IEmployeeService
     {
-        IEnumerable<EmployeeViewModel> GetEmployees();
+        IEnumerable<Employee> GetEmployees();
 
-        EmployeeViewModel GetEmployee(int id);
+        Employee GetEmployee(int id);
 
         void Commit();
 
-        void AddNew(EmployeeViewModel model);
+        void AddNew(Employee model);
 
         void Delete(int id);
     }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebStore.DAL;
+using WebStore.DAL.Context;
 
 namespace WebStore
 {
@@ -19,8 +20,8 @@ namespace WebStore
                 try
                 {
                     var context = services.GetRequiredService<WebStoreDB>();
-                    DbInitializer.Initialize(context);
-                    DbInitializer.InitializeUsers(services);
+                    WebStoreDBInitializer.Initialize(context);
+                    WebStoreDBInitializer.InitializeUsers(services);
                 }
                 catch (Exception ex)
                 {

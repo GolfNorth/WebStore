@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Infrastructure.Interfaces;
-using WebStore.Models;
+using WebStore.Infrastructure.Mapping;
+using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
@@ -20,7 +22,7 @@ namespace WebStore.Controllers
         // GET: /employees
         public IActionResult Index()
         {
-            return View(_employeesService.GetEmployees());
+            return View(_employeesService.GetEmployees().Select(e => e.ToView()));
         }
 
         [Route("{id}")]
@@ -28,7 +30,7 @@ namespace WebStore.Controllers
         // GET: /employees/{id}
         public IActionResult View(int id)
         {
-            return View(_employeesService.GetEmployee(id));
+            return View(_employeesService.GetEmployee(id).ToView());
         }
 
         [Route("edit/{id?}")]
@@ -41,11 +43,10 @@ namespace WebStore.Controllers
                 return View(new EmployeeViewModel());
 
             var model = _employeesService.GetEmployee(id.Value);
-            if (model == null)
-                return NotFound();// возвращаем результат 404 Not Found
+            
+            if (model == null) return NotFound(); // возвращаем результат 404 Not Found
 
-
-            return View(model);
+            return View(model.ToView());
         }
 
         [Route("edit/{id?}")]
@@ -67,14 +68,13 @@ namespace WebStore.Controllers
                     return NotFound();// возвращаем результат 404 Not Found
 
                 dbItem.FirstName = model.FirstName;
-                dbItem.SurName = model.SurName;
+                dbItem.SecondName = model.SecondName;
                 dbItem.Age = model.Age;
                 dbItem.Patronymic = model.Patronymic;
-                dbItem.Position = model.Position;
             }
             else // иначе добавляем модель в список
             {
-                _employeesService.AddNew(model);
+                _employeesService.AddNew(model.FromView());
             }
             _employeesService.Commit(); // станет актуальным позднее (когда добавим БД)
 

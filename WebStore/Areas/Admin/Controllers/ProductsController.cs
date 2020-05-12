@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebStore.DAL;
+using WebStore.DAL.Context;
 using WebStore.Domain.Entities;
 
 namespace WebStore.Areas.Admin.Controllers

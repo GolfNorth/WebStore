@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WebStore.Domain.Entities.Base.Interfaces;
 
-namespace WebStore.Models
+namespace WebStore.ViewModels
 {
     public class EmployeeViewModel : IBaseEntity
     {
@@ -14,7 +14,7 @@ namespace WebStore.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Фамилия является обязательной")]
         [StringLength(64, MinimumLength = 2, ErrorMessage = "В фамилии должно быть не менее 2х и не более 64 символов")]
         [Display(Name = "Фамилия")]
-        public string SurName { get; set; }
+        public string SecondName { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Отчество является обязательным")]
         [Display(Name = "Отчество")]

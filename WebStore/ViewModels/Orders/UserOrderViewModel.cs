@@ -1,4 +1,4 @@
-﻿namespace WebStore.Models
+﻿namespace WebStore.ViewModels.Orders
 {
     public class UserOrderViewModel
     {

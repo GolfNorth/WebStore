@@ -7,39 +7,37 @@ namespace WebStore.Infrastructure.Services
 {
     public class InMemoryEmployeeService : IEmployeeService
     {
-        protected List<EmployeeViewModel> Entities;
+        protected List<Employee> Entities;
 
         public InMemoryEmployeeService()
         {
-            Entities = new List<EmployeeViewModel>
+            Entities = new List<Employee>
             {
-                new EmployeeViewModel
+                new Employee
                 {
                     Id = 1,
                     FirstName = "Иван",
-                    SurName = "Иванов",
+                    SecondName = "Иванов",
                     Patronymic = "Иванович",
-                    Age = 22,
-                    Position = "Начальник"
+                    Age = 22
                 },
-                new EmployeeViewModel
+                new Employee
                 {
                     Id = 2,
                     FirstName = "Владислав",
-                    SurName = "Петров",
+                    SecondName = "Петров",
                     Patronymic = "Иванович",
-                    Age = 35,
-                    Position = "Программист"
+                    Age = 35
                 }
             };
         }
 
-        public IEnumerable<EmployeeViewModel> GetEmployees()
+        public IEnumerable<Employee> GetEmployees()
         {
             return Entities;
         }
 
-        public EmployeeViewModel GetEmployee(int id)
+        public Employee GetEmployee(int id)
         {
             return Entities.FirstOrDefault(e => e.Id == id);
         }
@@ -48,7 +46,7 @@ namespace WebStore.Infrastructure.Services
         {
         }
 
-        public void AddNew(EmployeeViewModel employee)
+        public void AddNew(Employee employee)
         {
             employee.Id = Entities.Max(e => e.Id) + 1;
             Entities.Add(employee);

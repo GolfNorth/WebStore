@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Models;
+using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
@@ -44,7 +45,7 @@ namespace WebStore.Controllers
             {
                 Id = 1,
                 FirstName = "Иван",
-                SurName = "Иванов",
+                SecondName = "Иванов",
                 Patronymic = "Иванович",
                 Age = 22,
                 Position = "Начальник"
