@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using WebStore.Domain;
 using WebStore.Domain.Entities;
-using WebStore.Models;
 
 namespace WebStore.Infrastructure.Interfaces
 {

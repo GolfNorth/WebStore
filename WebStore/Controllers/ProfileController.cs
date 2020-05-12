@@ -2,8 +2,6 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Infrastructure.Interfaces;
-using WebStore.Models;
-using WebStore.ViewModels;
 using WebStore.ViewModels.Orders;
 
 namespace WebStore.Controllers
@@ -28,7 +26,6 @@ namespace WebStore.Controllers
             var orderModels = new List<UserOrderViewModel>(orders.Count());
 
             foreach (var order in orders)
-            {
                 orderModels.Add(new UserOrderViewModel()
                 {
                     Id = order.Id,
@@ -37,7 +34,6 @@ namespace WebStore.Controllers
                     Phone = order.Phone,
                     TotalSum = order.OrderItems.Sum(o => o.Price * o.Quantity)
                 });
-            }
 
             return View(orderModels);
         }

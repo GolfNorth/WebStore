@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebStore.Infrastructure.Interfaces;
-using WebStore.Models;
 using WebStore.ViewModels;
 using WebStore.ViewModels.Orders;
 
@@ -52,14 +51,15 @@ namespace WebStore.Controllers
             return Redirect(returnUrl);
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CheckOut(OrderViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var orderResult = _ordersService.CreateOrder(model, _cartService.TransformCart(), User.Identity.Name);
                 _cartService.RemoveAll();
-                return RedirectToAction("OrderConfirmed", new { id = orderResult.Id });
+                return RedirectToAction("OrderConfirmed", new {id = orderResult.Id});
             }
 
             var detailsModel = new OrderDetailsViewModel()

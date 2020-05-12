@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebStore.Domain;
 using WebStore.Domain.Entities;
 using WebStore.Infrastructure.Interfaces;
 
-namespace WebStore.Infrastructure.Services
+namespace WebStore.Infrastructure.Services.InMemory
 {
-
     public class InMemoryProductService : IProductService
     {
         private readonly List<Brand> _brands;

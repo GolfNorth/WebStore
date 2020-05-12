@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Microsoft.AspNetCore.Mvc;
-using WebStore.Models;
 using WebStore.ViewModels;
 
 namespace WebStore.Controllers
@@ -66,7 +61,7 @@ namespace WebStore.Controllers
 
         public IActionResult RedirectWithParameters()
         {
-            return RedirectToAction("MereContentString", "ActionResults", new { name = "Dear user" });
+            return RedirectToAction("MereContentString", "ActionResults", new {name = "Dear user"});
         }
 
         public IActionResult ForbiddenResource()
@@ -96,7 +91,7 @@ namespace WebStore.Controllers
 
         public IActionResult ReallyBadRequest(string s)
         {
-            if (String.IsNullOrEmpty(s))
+            if (string.IsNullOrEmpty(s))
                 return BadRequest("Some parameter was expected");
 
             return View("Index");
@@ -105,31 +100,31 @@ namespace WebStore.Controllers
         public IActionResult GetFile()
         {
             // Путь к файлу
-            string file_path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/blog/man-two.jpg");
+            var file_path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/blog/man-two.jpg");
             // Тип файла - content-type
-            string file_type = "image/jpeg";
+            var file_type = "image/jpeg";
             // Имя файла - необязательно
-            string file_name = "My awesome ring.jpg";
+            var file_name = "My awesome ring.jpg";
             return PhysicalFile(file_path, file_type, file_name);
         }
 
         // Отправка массива байтов
         public FileResult GetBytes()
         {
-            string file_path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/15.jpg");
-            byte[] mas = System.IO.File.ReadAllBytes(file_path);
-            string file_type = "image/jpeg";
-            string file_name = "My awesome ring.jpg";
+            var file_path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/15.jpg");
+            var mas = System.IO.File.ReadAllBytes(file_path);
+            var file_type = "image/jpeg";
+            var file_name = "My awesome ring.jpg";
             return File(mas, file_type, file_name);
         }
 
         // Отправка потока
         public FileResult GetStream()
         {
-            string file_path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/15.jpg");
-            FileStream fs = new FileStream(file_path, FileMode.Open);
-            string file_type = "image/jpeg";
-            string file_name = "My awesome ring.jpg";
+            var file_path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/15.jpg");
+            var fs = new FileStream(file_path, FileMode.Open);
+            var file_type = "image/jpeg";
+            var file_name = "My awesome ring.jpg";
             return File(fs, file_type, file_name);
         }
     }

@@ -1,10 +1,8 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using WebStore.Domain;
 using WebStore.Domain.Entities;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Infrastructure.Mapping;
-using WebStore.Models;
 using WebStore.ViewModels;
 
 namespace WebStore.Controllers
@@ -22,7 +20,7 @@ namespace WebStore.Controllers
         public IActionResult Index(int? categoryId, int? brandId)
         {
             var products = _productService.GetProducts(
-                new ProductFilter { BrandId = brandId, CategoryId = categoryId });
+                new ProductFilter {BrandId = brandId, CategoryId = categoryId});
 
             var model = new CatalogViewModel()
             {

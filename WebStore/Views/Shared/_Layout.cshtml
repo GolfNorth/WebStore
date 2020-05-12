@@ -7,27 +7,27 @@
     <meta name="author" content="">
     <title>@ViewData["Title"] | @Configuration["SiteName"]</title>
 
-    <partial name="Partial/_Styles" />
+    <partial name="Partial/_Styles"/>
 
     @RenderSection("Styles", false)
 
     <!--[if lt IE 9]>
-    <script src="~/lib/html5shiv/html5shiv.min.js"></script>
-    <script src="~/lib/respond.js/respond.min.js"></script>
+        <script src="~/lib/html5shiv/html5shiv.min.js"></script>
+        <script src="~/lib/respond.js/respond.min.js"></script>
     <![endif]-->
 
     <link rel="shortcut icon" href="~/images/ico/favicon.ico">
 </head><!--/head-->
 
 <body>
-    <partial name="Partial/_Header"/>
+<partial name="Partial/_Header"/>
 
-    @RenderBody()
+@RenderBody()
 
-    <partial name="Partial/_Footer"/>
+<partial name="Partial/_Footer"/>
 
-    <partial name="Partial/_Scripts"/>
+<partial name="Partial/_Scripts"/>
 
-    @RenderSection("Scripts", false)
+@RenderSection("Scripts", false)
 </body>
 </html>

@@ -1,10 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Identity;
-using WebStore.Models;
-using WebStore.ViewModels;
 using WebStore.ViewModels.Identity;
 
 namespace WebStore.Controllers
@@ -33,12 +30,13 @@ namespace WebStore.Controllers
             return View(new SignUpViewModel());
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignUp(SignUpViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
 
-            var user = new User { UserName = model.UserName, Email = model.Email };
+            var user = new User {UserName = model.UserName, Email = model.Email};
             var createResult = await _userManager.CreateAsync(user, model.Password);
 
             if (!createResult.Succeeded)
@@ -66,12 +64,14 @@ namespace WebStore.Controllers
         }
 
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignIn(SignInViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
 
-            var loginResult = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
+            var loginResult =
+                await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
 
             if (!loginResult.Succeeded)
             {

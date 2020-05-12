@@ -7,12 +7,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WebStore.DAL;
 using WebStore.DAL.Context;
+using WebStore.Data;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure;
 using WebStore.Infrastructure.Interfaces;
-using WebStore.Infrastructure.Services;
+using WebStore.Infrastructure.Services.InCookies;
+using WebStore.Infrastructure.Services.InMemory;
+using WebStore.Infrastructure.Services.InSQL;
 
 namespace WebStore
 {
@@ -84,10 +86,7 @@ namespace WebStore
         {
             db.Initialize();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
 
@@ -104,12 +103,12 @@ namespace WebStore
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "areas",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                    "areas",
+                    "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

@@ -43,7 +43,7 @@ namespace WebStore.Controllers
                 return View(new EmployeeViewModel());
 
             var model = _employeesService.GetEmployee(id.Value);
-            
+
             if (model == null) return NotFound(); // возвращаем результат 404 Not Found
 
             return View(model.ToView());
@@ -55,17 +55,14 @@ namespace WebStore.Controllers
         // GET: /employees/edit/{id}
         public IActionResult Edit(EmployeeViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            if (!ModelState.IsValid) return View(model);
 
             if (model.Id > 0) // если есть Id, то редактируем модель
             {
                 var dbItem = _employeesService.GetEmployee(model.Id);
 
                 if (dbItem == null)
-                    return NotFound();// возвращаем результат 404 Not Found
+                    return NotFound(); // возвращаем результат 404 Not Found
 
                 dbItem.FirstName = model.FirstName;
                 dbItem.SecondName = model.SecondName;
@@ -76,6 +73,7 @@ namespace WebStore.Controllers
             {
                 _employeesService.AddNew(model.FromView());
             }
+
             _employeesService.Commit(); // станет актуальным позднее (когда добавим БД)
 
             return RedirectToAction(nameof(Index));

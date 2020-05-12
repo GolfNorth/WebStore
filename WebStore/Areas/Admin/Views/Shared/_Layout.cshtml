@@ -1,74 +1,74 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] | @Configuration["SiteName"]</title>
-    <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css"/>
     <link href="~/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="~/admin/css/custom.css" rel="stylesheet" />
+    <link href="~/admin/css/custom.css" rel="stylesheet"/>
 </head>
 <body>
-    <div id="wrapper">
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="adjust-nav">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">
-                        <img src="~/admin/img/logo.png" />
+<div id="wrapper">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="adjust-nav">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img src="~/admin/img/logo.png"/>
 
-                    </a>
-                </div>
-                <span class="logout-spn">
-                    <a asp-controller="Account" asp-action="SignOut" asp-area="" style="color:#fff;">Выход</a>
-                </span>
+                </a>
             </div>
-        </div>
-        <!-- /. NAV TOP  -->
-        <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu">
-                    <li>
-                        <a asp-action="Index" asp-controller="Home" asp-area="Admin"><i class="fa fa-desktop "></i>Панель управления</a>
-                    </li>
-                    <li>
-                        <a asp-action="Index" asp-controller="Products" asp-area="Admin"><i class="fa fa-edit "></i>Список продуктов</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <!-- /. NAV SIDE  -->
-        <div id="page-wrapper">
-            <div id="page-inner">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h2>@ViewData["Title"]</h2>
-                    </div>
-                </div>
-                <!-- /. ROW  -->
-                <hr />
-                @RenderBody()
-            </div>
-            <!-- /. PAGE INNER  -->
-        </div>
-        <!-- /. PAGE WRAPPER  -->
-    </div>
-    <div class="footer">
-        <div class="row">
-            <div class="col-lg-12">
-                &copy;  2014 yourdomain.com | Design by: <a href="http://binarytheme.com" style="color:#fff;" target="_blank">www.binarytheme.com</a>
-            </div>
+            <span class="logout-spn">
+                <a asp-controller="Account" asp-action="SignOut" asp-area="" style="color: #fff;">Выход</a>
+            </span>
         </div>
     </div>
+    <!-- /. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+                <li>
+                    <a asp-action="Index" asp-controller="Home" asp-area="Admin"><i class="fa fa-desktop "></i>Панель управления</a>
+                </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Products" asp-area="Admin"><i class="fa fa-edit "></i>Список продуктов</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- /. NAV SIDE  -->
+    <div id="page-wrapper">
+        <div id="page-inner">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>@ViewData["Title"]</h2>
+                </div>
+            </div>
+            <!-- /. ROW  -->
+            <hr/>
+            @RenderBody()
+        </div>
+        <!-- /. PAGE INNER  -->
+    </div>
+    <!-- /. PAGE WRAPPER  -->
+</div>
+<div class="footer">
+    <div class="row">
+        <div class="col-lg-12">
+            &copy; 2014 yourdomain.com | Design by: <a href="http://binarytheme.com" style="color: #fff;" target="_blank">www.binarytheme.com</a>
+        </div>
+    </div>
+</div>
 <!-- /. WRAPPER  -->
-    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-    <script src="~/lib/jquery/jquery.min.js"></script>
-    <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
-    <script src="~/admin/js/custom.js"></script>
+<!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+<script src="~/lib/jquery/jquery.min.js"></script>
+<script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+<script src="~/admin/js/custom.js"></script>
 </body>
 </html>

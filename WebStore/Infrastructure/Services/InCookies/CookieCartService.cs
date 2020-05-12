@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using WebStore.Domain;
 using WebStore.Domain.Entities;
 using WebStore.Infrastructure.Interfaces;
 using WebStore.Models;
 using WebStore.ViewModels;
 
-namespace WebStore.Infrastructure.Services
+namespace WebStore.Infrastructure.Services.InCookies
 {
     public class CookieCartService : ICartService
     {
@@ -22,28 +21,28 @@ namespace WebStore.Infrastructure.Services
             get
             {
                 var cookie = _httpContextAccessor
-                                .HttpContext
-                                .Request
-                                .Cookies[_cartName];
+                    .HttpContext
+                    .Request
+                    .Cookies[_cartName];
                 string json;
                 Cart cart;
 
                 if (cookie == null)
                 {
-                    cart = new Cart { Items = new List<CartItem>() };
+                    cart = new Cart {Items = new List<CartItem>()};
                     json = JsonConvert.SerializeObject(cart);
 
                     _httpContextAccessor
-                          .HttpContext
-                          .Response
-                          .Cookies
-                          .Append(
-                             _cartName,
-                             json,
-                             new CookieOptions
-                             {
-                                 Expires = DateTime.Now.AddDays(1)
-                             });
+                        .HttpContext
+                        .Response
+                        .Cookies
+                        .Append(
+                            _cartName,
+                            json,
+                            new CookieOptions
+                            {
+                                Expires = DateTime.Now.AddDays(1)
+                            });
                     return cart;
                 }
 
@@ -51,22 +50,22 @@ namespace WebStore.Infrastructure.Services
                 cart = JsonConvert.DeserializeObject<Cart>(json);
 
                 _httpContextAccessor
-                      .HttpContext
-                      .Response
-                      .Cookies
-                      .Delete(_cartName);
+                    .HttpContext
+                    .Response
+                    .Cookies
+                    .Delete(_cartName);
 
                 _httpContextAccessor
-                      .HttpContext
-                      .Response
-                      .Cookies
-                      .Append(
-                          _cartName,
-                          json,
-                          new CookieOptions()
-                          {
-                              Expires = DateTime.Now.AddDays(1)
-                          });
+                    .HttpContext
+                    .Response
+                    .Cookies
+                    .Append(
+                        _cartName,
+                        json,
+                        new CookieOptions()
+                        {
+                            Expires = DateTime.Now.AddDays(1)
+                        });
 
                 return cart;
             }
@@ -75,22 +74,22 @@ namespace WebStore.Infrastructure.Services
                 var json = JsonConvert.SerializeObject(value);
 
                 _httpContextAccessor
-                      .HttpContext
-                      .Response
-                      .Cookies
-                      .Delete(_cartName);
+                    .HttpContext
+                    .Response
+                    .Cookies
+                    .Delete(_cartName);
 
                 _httpContextAccessor
-                      .HttpContext
-                      .Response
-                      .Cookies
-                      .Append(
-                           _cartName,
-                           json,
-                           new CookieOptions()
-                           {
-                               Expires = DateTime.Now.AddDays(1)
-                           });
+                    .HttpContext
+                    .Response
+                    .Cookies
+                    .Append(
+                        _cartName,
+                        json,
+                        new CookieOptions()
+                        {
+                            Expires = DateTime.Now.AddDays(1)
+                        });
             }
         }
 
@@ -149,7 +148,7 @@ namespace WebStore.Infrastructure.Services
             if (item != null)
                 item.Quantity++;
             else
-                cart.Items.Add(new CartItem { ProductId = id, Quantity = 1 });
+                cart.Items.Add(new CartItem {ProductId = id, Quantity = 1});
 
             Cart = cart;
         }

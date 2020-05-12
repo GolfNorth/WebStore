@@ -7,19 +7,43 @@
                 <div class="col-sm-6">
                     <div class="contactinfo">
                         <ul class="nav nav-pills">
-                            <li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-                            <li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+                            <li>
+                                <a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-envelope"></i> info@domain.com</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="social-icons pull-right">
                         <ul class="nav navbar-nav">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-linkedin"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-dribbble"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-google-plus"></i>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -33,7 +57,9 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="logo pull-left">
-                        <a asp-controller="Home" asp-action="Index"><img src="~/images/home/logo.png" alt="" /></a>
+                        <a asp-controller="Home" asp-action="Index">
+                            <img src="~/images/home/logo.png" alt=""/>
+                        </a>
                     </div>
                     <div class="btn-group pull-right">
                         <div class="btn-group">
@@ -42,7 +68,9 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#">СНГ</a></li>
+                                <li>
+                                    <a href="#">СНГ</a>
+                                </li>
                             </ul>
                         </div>
 
@@ -52,8 +80,12 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Доллар</a></li>
-                                <li><a href="#">Евро</a></li>
+                                <li>
+                                    <a href="#">Доллар</a>
+                                </li>
+                                <li>
+                                    <a href="#">Евро</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -61,9 +93,15 @@
                 <div class="col-sm-8">
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
-                            <li><a asp-controller="Profile" asp-action="Wishlist"><i class="fa fa-star"></i> Избранное</a></li>
-                            <li><a asp-controller="Profile" asp-action="Checkout"><i class="fa fa-crosshairs"></i> Оформить заказ</a></li>
-                            <li><a asp-controller="Cart" asp-action="Index"><i class="fa fa-shopping-cart"></i> Корзина</a></li>
+                            <li>
+                                <a asp-controller="Profile" asp-action="Wishlist"><i class="fa fa-star"></i> Избранное</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Profile" asp-action="Checkout"><i class="fa fa-crosshairs"></i> Оформить заказ</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Cart" asp-action="Index"><i class="fa fa-shopping-cart"></i> Корзина</a>
+                            </li>
                             <vc:sign-in-sign-out></vc:sign-in-sign-out>
                         </ul>
                     </div>
@@ -87,21 +125,33 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a asp-controller="Home" asp-action="Index">Главная</a></li>
-                            <li><a asp-controller="Catalog" asp-action="Index">Каталог</a></li>
-                            <li><a asp-controller="Blog" asp-action="Index">Блог</a></li>
-                            <li><a asp-controller="Home" asp-action="ContactUs">Контакты</a></li>
-                            <li><a asp-controller="Employee" asp-action="Index">Сотрудники</a></li>
+                            <li>
+                                <a asp-controller="Home" asp-action="Index">Главная</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Catalog" asp-action="Index">Каталог</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Blog" asp-action="Index">Блог</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Home" asp-action="ContactUs">Контакты</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Employee" asp-action="Index">Сотрудники</a>
+                            </li>
                             @if (User.IsInRole("Admins"))
                             {
-                                <li><a asp-controller="Home" asp-action="Index" asp-area="Admin" target="_blank">Админка</a></li>
+                                <li>
+                                    <a asp-controller="Home" asp-action="Index" asp-area="Admin" target="_blank">Админка</a>
+                                </li>
                             }
                         </ul>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="search_box pull-right">
-                        <input type="text" placeholder="Искать" />
+                        <input type="text" placeholder="Искать"/>
                     </div>
                 </div>
             </div>

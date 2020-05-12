@@ -11,7 +11,9 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordian" href="#@parentCategory.Name.ToLower()">
-                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                            <span class="badge pull-right">
+                                <i class="fa fa-plus"></i>
+                            </span>
                             @parentCategory.Name
                         </a>
                     </h4>
@@ -23,7 +25,8 @@
                             {
                                 <li>
                                     <a asp-controller="Catalog" asp-action="Index"
-                                       asp-route-categoryId="@childCategory.Id">@childCategory.Name</a>
+                                       asp-route-categoryId="@childCategory.Id">
+                                        @childCategory.Name</a>
                                 </li>
                             }
                         </ul>
@@ -37,7 +40,8 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a asp-controller="Catalog" asp-action="Index"
-                           asp-route-categoryId="@parentCategory.Id">@parentCategory.Name</a>
+                           asp-route-categoryId="@parentCategory.Id">
+                            @parentCategory.Name</a>
                     </h4>
                 </div>
             </div>

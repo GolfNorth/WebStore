@@ -4,10 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.Context;
-using WebStore.Data;
 using WebStore.Domain.Entities.Identity;
 
-namespace WebStore.DAL
+namespace WebStore.Data
 {
     public class WebStoreDBInitializer
     {
@@ -22,7 +21,10 @@ namespace WebStore.DAL
             _roleManager = roleManager;
         }
 
-        public void Initialize() => InitializeAsync().Wait();
+        public void Initialize()
+        {
+            InitializeAsync().Wait();
+        }
 
         public async Task InitializeAsync()
         {
@@ -77,10 +79,10 @@ namespace WebStore.DAL
         private async Task InitializeIdentityAsync()
         {
             if (!await _roleManager.RoleExistsAsync(Role.Administrator))
-                await _roleManager.CreateAsync(new Role { Name = Role.Administrator });
+                await _roleManager.CreateAsync(new Role {Name = Role.Administrator});
 
             if (!await _roleManager.RoleExistsAsync(Role.User))
-                await _roleManager.CreateAsync(new Role { Name = Role.User });
+                await _roleManager.CreateAsync(new Role {Name = Role.User});
 
             if (await _userManager.FindByNameAsync(User.Administrator) is null)
             {
@@ -92,11 +94,14 @@ namespace WebStore.DAL
 
                 var create_result = await _userManager.CreateAsync(admin, User.AdminDefaultPassword);
                 if (create_result.Succeeded)
+                {
                     await _userManager.AddToRoleAsync(admin, Role.Administrator);
+                }
                 else
                 {
                     var errors = create_result.Errors.Select(error => error.Description);
-                    throw new InvalidOperationException($"Ошибка при создании пользователя - Администратора: {string.Join(", ", errors)}");
+                    throw new InvalidOperationException(
+                        $"Ошибка при создании пользователя - Администратора: {string.Join(", ", errors)}");
                 }
             }
         }

@@ -12,8 +12,7 @@ namespace WebStore.Domain.Entities.Orders
         public string Address { get; set; }
         public DateTime Date { get; set; }
 
-        [Required]
-        public virtual User User { get; set; }
+        [Required] public virtual User User { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }

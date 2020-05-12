@@ -25,11 +25,10 @@
     {
       "library": "scrollup@2.3.2",
       "destination": "wwwroot/lib/scrollup/"
+    },
+    {
+      "library": "html5shiv@3.7.3",
+      "destination": "wwwroot/lib/html5shiv/"
     }
-  ,
-{
-  "library": "html5shiv@3.7.3",
-  "destination": "wwwroot/lib/html5shiv/"
-}
-]
+  ]
 }
