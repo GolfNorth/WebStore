@@ -12,18 +12,18 @@ namespace WebStore.Infrastructure.Services
 {
     public class SqlOrdersService : IOrdersService
     {
-        private readonly WebStoreContext _context;
+        private readonly WebStoreDB _db;
         private readonly UserManager<User> _userManager;
 
-        public SqlOrdersService(WebStoreContext context, UserManager<User> userManager)
+        public SqlOrdersService(WebStoreDB db, UserManager<User> userManager)
         {
-            _context = context;
+            _db = db;
             _userManager = userManager;
         }
 
         public IEnumerable<Order> GetUserOrders(string userName)
         {
-            return _context.Orders
+            return _db.Orders
                 .Include(o => o.User)
                 .Include(o => o.OrderItems)
                 .Where(x => x.User.UserName == userName)
@@ -32,7 +32,7 @@ namespace WebStore.Infrastructure.Services
 
         public Order GetOrderById(int id)
         {
-            return _context.Orders
+            return _db.Orders
                 .Include(o => o.User)
                 .Include(o => o.OrderItems)
                 .FirstOrDefault(x => x.Id == id);
@@ -42,7 +42,7 @@ namespace WebStore.Infrastructure.Services
         {
             var user = _userManager.FindByNameAsync(userName).Result;
 
-            using (var transaction = _context.Database.BeginTransaction())
+            using (var transaction = _db.Database.BeginTransaction())
             {
                 var order = new Order()
                 {
@@ -53,12 +53,12 @@ namespace WebStore.Infrastructure.Services
                     User = user
                 };
 
-                _context.Orders.Add(order);
+                _db.Orders.Add(order);
 
                 foreach (var item in transformCart.Items)
                 {
                     var productVm = item.Key;
-                    var product = _context.Products.FirstOrDefault(p => p.Id.Equals(productVm.Id));
+                    var product = _db.Products.FirstOrDefault(p => p.Id.Equals(productVm.Id));
 
                     if (product == null)
                         throw new InvalidOperationException("Продукт не найден в базе");
@@ -71,10 +71,10 @@ namespace WebStore.Infrastructure.Services
                         Product = product
                     };
 
-                    _context.OrderItems.Add(orderItem);
+                    _db.OrderItems.Add(orderItem);
                 }
 
-                _context.SaveChanges();
+                _db.SaveChanges();
                 transaction.Commit();
 
                 return order;

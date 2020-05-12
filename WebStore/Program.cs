@@ -18,7 +18,7 @@ namespace WebStore
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<WebStoreContext>();
+                    var context = services.GetRequiredService<WebStoreDB>();
                     DbInitializer.Initialize(context);
                     DbInitializer.InitializeUsers(services);
                 }

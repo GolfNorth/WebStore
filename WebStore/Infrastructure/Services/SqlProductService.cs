@@ -10,26 +10,26 @@ namespace WebStore.Infrastructure.Services
 {
     public class SqlProductService : IProductService
     {
-        private readonly WebStoreContext _context;
+        private readonly WebStoreDB _db;
 
-        public SqlProductService(WebStoreContext context)
+        public SqlProductService(WebStoreDB db)
         {
-            _context = context;
+            _db = db;
         }
 
         public IEnumerable<Category> GetCategories()
         {
-            return _context.Categories.ToList();
+            return _db.Categories.ToList();
         }
 
         public IEnumerable<Brand> GetBrands()
         {
-            return _context.Brands.ToList();
+            return _db.Brands.ToList();
         }
 
         public IEnumerable<Product> GetProducts(ProductFilter filter)
         {
-            var query = _context.Products
+            var query = _db.Products
                 .Include(p => p.Category)
                 .Include(p => p.Brand)
                 .AsQueryable();
@@ -46,7 +46,7 @@ namespace WebStore.Infrastructure.Services
 
         public Product GetProductById(int id)
         {
-            return _context.Products
+            return _db.Products
                 .Include(p => p.Category)
                 .Include(p => p.Brand)
                 .FirstOrDefault(p => p.Id == id);
@@ -54,14 +54,14 @@ namespace WebStore.Infrastructure.Services
 
         public void Commit()
         {
-            _context.SaveChanges();
+            _db.SaveChanges();
         }
 
         public void AddNew(Product entity)
         {
             if (entity.Id > 0) return;
 
-            _context.Products.Add(entity);
+            _db.Products.Add(entity);
         }
 
         public void Delete(int id)
@@ -69,7 +69,7 @@ namespace WebStore.Infrastructure.Services
             var dbItem = GetProductById(id);
 
             if (dbItem != null)
-                _context.Entry(dbItem).State = EntityState.Deleted;
+                _db.Entry(dbItem).State = EntityState.Deleted;
         }
     }
 }

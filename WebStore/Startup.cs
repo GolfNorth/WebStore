@@ -29,11 +29,11 @@ namespace WebStore
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddMvc(options => options.Filters.Add(typeof(SomeActionFilter)));
 
-            services.AddDbContext<WebStoreContext>(options => options
+            services.AddDbContext<WebStoreDB>(options => options
                 .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<WebStoreContext>()
+                .AddEntityFrameworkStores<WebStoreDB>()
                 .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options =>

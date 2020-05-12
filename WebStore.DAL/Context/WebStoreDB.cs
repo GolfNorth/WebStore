@@ -4,9 +4,9 @@ using WebStore.Domain.Entities;
 
 namespace WebStore.DAL
 {
-    public class WebStoreContext : IdentityDbContext<User>
+    public class WebStoreDB : IdentityDbContext<User>
     {
-        public WebStoreContext(DbContextOptions opt) : base(opt) { }
+        public WebStoreDB(DbContextOptions opt) : base(opt) { }
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }

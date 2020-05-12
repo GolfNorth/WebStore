@@ -16,20 +16,20 @@ namespace WebStore.Areas.Admin.Controllers
     [Authorize(Roles = "Admins")]
     public class ProductsController : Controller
     {
-        private readonly WebStoreContext _context;
+        private readonly WebStoreDB _db;
         private readonly IWebHostEnvironment _appEnvironment;
         private const string ImagePath = "/images/shop/";
 
-        public ProductsController(WebStoreContext context, IWebHostEnvironment appEnvironment)
+        public ProductsController(WebStoreDB db, IWebHostEnvironment appEnvironment)
         {
-            _context = context;
+            _db = db;
             _appEnvironment = appEnvironment;
         }
 
         // GET: Admin/Products
         public async Task<IActionResult> Index()
         {
-            var webStoreContext = _context.Products.Include(p => p.Brand).Include(p => p.Category);
+            var webStoreContext = _db.Products.Include(p => p.Brand).Include(p => p.Category);
             return View(await webStoreContext.ToListAsync());
         }
 
@@ -41,7 +41,7 @@ namespace WebStore.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
+            var product = await _db.Products
                 .Include(p => p.Brand)
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -56,8 +56,8 @@ namespace WebStore.Areas.Admin.Controllers
         // GET: Admin/Products/Create
         public IActionResult Create()
         {
-            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Id");
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
+            ViewData["BrandId"] = new SelectList(_db.Brands, "Id", "Id");
+            ViewData["CategoryId"] = new SelectList(_db.Categories, "Id", "Id");
             return View();
         }
 
@@ -70,19 +70,19 @@ namespace WebStore.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
+                _db.Add(product);
+                await _db.SaveChangesAsync();
                 if (imageFile != null) // Обработка загруженного файла
                 {
                     product.ImageUrl = $"product{product.Id}{Path.GetExtension(imageFile.FileName)}";
                     await using var fileStream = new FileStream(_appEnvironment.WebRootPath + ImagePath + product.ImageUrl, FileMode.Create);
                     await imageFile.CopyToAsync(fileStream);
-                    await _context.SaveChangesAsync();
+                    await _db.SaveChangesAsync();
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Id", product.BrandId);
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
+            ViewData["BrandId"] = new SelectList(_db.Brands, "Id", "Id", product.BrandId);
+            ViewData["CategoryId"] = new SelectList(_db.Categories, "Id", "Id", product.CategoryId);
 
             return View(product);
         }
@@ -95,13 +95,13 @@ namespace WebStore.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = await _db.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
-            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Id", product.BrandId);
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
+            ViewData["BrandId"] = new SelectList(_db.Brands, "Id", "Id", product.BrandId);
+            ViewData["CategoryId"] = new SelectList(_db.Categories, "Id", "Id", product.CategoryId);
             return View(product);
         }
 
@@ -121,14 +121,14 @@ namespace WebStore.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    _db.Update(product);
+                    await _db.SaveChangesAsync();
                     if (imageFile != null) // Обработка загруженного файла
                     {
                         product.ImageUrl = $"product{product.Id}{Path.GetExtension(imageFile.FileName)}";
                         await using var fileStream = new FileStream(_appEnvironment.WebRootPath + ImagePath + product.ImageUrl, FileMode.Create);
                         await imageFile.CopyToAsync(fileStream);
-                        await _context.SaveChangesAsync();
+                        await _db.SaveChangesAsync();
                     }
                 }
                 catch (DbUpdateConcurrencyException)
@@ -144,8 +144,8 @@ namespace WebStore.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Id", product.BrandId);
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
+            ViewData["BrandId"] = new SelectList(_db.Brands, "Id", "Id", product.BrandId);
+            ViewData["CategoryId"] = new SelectList(_db.Categories, "Id", "Id", product.CategoryId);
             return View(product);
         }
 
@@ -157,7 +157,7 @@ namespace WebStore.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
+            var product = await _db.Products
                 .Include(p => p.Brand)
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -174,17 +174,17 @@ namespace WebStore.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _db.Products.FindAsync(id);
             var imageFile = new FileInfo(_appEnvironment.WebRootPath + ImagePath + product.ImageUrl);
             if (imageFile.Exists) imageFile.Delete();
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            _db.Products.Remove(product);
+            await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _db.Products.Any(e => e.Id == id);
         }
     }
 }

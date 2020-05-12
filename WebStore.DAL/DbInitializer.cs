@@ -11,11 +11,11 @@ namespace WebStore.DAL
 {
     public static class DbInitializer
     {
-        public static void Initialize(WebStoreContext context)
+        public static void Initialize(WebStoreDB db)
         {
-            context.Database.EnsureCreated();
+            db.Database.EnsureCreated();
 
-            if (context.Products.Any())
+            if (db.Products.Any())
             {
                 return;
             }
@@ -234,16 +234,16 @@ namespace WebStore.DAL
                 }
             };
 
-            using (var trans = context.Database.BeginTransaction())
+            using (var trans = db.Database.BeginTransaction())
             {
                 foreach (var section in categories)
                 {
-                    context.Categories.Add(section);
+                    db.Categories.Add(section);
                 }
 
-                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Categories] ON");
-                context.SaveChanges();
-                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Categories] OFF");
+                db.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Categories] ON");
+                db.SaveChanges();
+                db.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Categories] OFF");
 
                 trans.Commit();
             }
@@ -294,16 +294,16 @@ namespace WebStore.DAL
                 },
             };
 
-            using (var trans = context.Database.BeginTransaction())
+            using (var trans = db.Database.BeginTransaction())
             {
                 foreach (var brand in brands)
                 {
-                    context.Brands.Add(brand);
+                    db.Brands.Add(brand);
                 }
 
-                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Brands] ON");
-                context.SaveChanges();
-                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Brands] OFF");
+                db.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Brands] ON");
+                db.SaveChanges();
+                db.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Brands] OFF");
 
                 trans.Commit();
             }
@@ -432,16 +432,16 @@ namespace WebStore.DAL
                 },
             };
 
-            using (var trans = context.Database.BeginTransaction())
+            using (var trans = db.Database.BeginTransaction())
             {
                 foreach (var product in products)
                 {
-                    context.
+                    db.
                         Products.Add(product);
                 }
-                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Products] ON");
-                context.SaveChanges();
-                context.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Products] OFF");
+                db.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Products] ON");
+                db.SaveChanges();
+                db.Database.ExecuteSqlCommand("SET IDENTITY_INSERT [dbo].[Products] OFF");
 
                 trans.Commit();
             }

@@ -9,7 +9,7 @@ using WebStore.DAL;
 
 namespace WebStore.DAL.Migrations
 {
-    [DbContext(typeof(WebStoreContext))]
+    [DbContext(typeof(WebStoreDB))]
     [Migration("20200505201404_OrdersAdded")]
     partial class OrdersAdded
     {
