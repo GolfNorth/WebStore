@@ -98,6 +98,6 @@
         <div class="heading">
             <h3>Оформите ваш заказ</h3>
         </div>
-        @await Html.PartialAsync("_OrderPartial", Model.OrderViewModel, new ViewDataDictionary(ViewData) {{"sumCart", sumCart}})
+        <partial name="Partial/_Order" model="Model.OrderViewModel" view-data="@(new ViewDataDictionary(ViewData) {{"sumCart", sumCart}})"/>
     </div>
 </section><!--/#do_action-->

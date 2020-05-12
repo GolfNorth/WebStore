@@ -6,7 +6,7 @@ using WebStore.Domain.Entities.Orders;
 
 namespace WebStore.DAL.Context
 {
-    public class WebStoreDB : IdentityDbContext<User>
+    public class WebStoreDB : IdentityDbContext<User, Role, string>
     {
         public WebStoreDB(DbContextOptions opt) : base(opt)
         {
