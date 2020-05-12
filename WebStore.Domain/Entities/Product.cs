@@ -27,14 +27,13 @@ namespace WebStore.Domain.Entities
         /// <summary>
         ///     Цена продукта
         /// </summary>
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
         public int Order { get; set; }
 
-        [ForeignKey("CategoryId")]
-        public virtual Category Category { get; set; }
+        [ForeignKey("CategoryId")] public virtual Category Category { get; set; }
 
-        [ForeignKey("BrandId")]
-        public virtual Brand Brand { get; set; }
+        [ForeignKey("BrandId")] public virtual Brand Brand { get; set; }
     }
 }

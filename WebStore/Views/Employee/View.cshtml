@@ -1,10 +1,10 @@
-﻿@model EmployeeViewModel
+﻿@model WebStore.ViewModels.EmployeeViewModel
 @{
-    ViewData["Title"] = Model.SurName;
+    ViewData["Title"] = Model.SecondName;
 }
 
 <div class="container">
-    <h1>@Model.FirstName @Model.SurName</h1>
+    <h1>@Model.FirstName @Model.SecondName</h1>
 
     <table class="table table-bordered">
         <tr>
@@ -13,7 +13,7 @@
         </tr>
         <tr>
             <th>Фамилия</th>
-            <td>@Model.SurName</td>
+            <td>@Model.SecondName</td>
         </tr>
         <tr>
             <th>Имя</th>

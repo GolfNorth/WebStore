@@ -17,8 +17,7 @@ namespace WebStore.Domain.Entities
 
         public int Order { get; set; }
 
-        [ForeignKey("ParentId")]
-        public virtual Category ParentCategory { get; set; }
+        [ForeignKey("ParentId")] public virtual Category ParentCategory { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
     }

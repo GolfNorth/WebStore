@@ -1,0 +1,34 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "jquery@1.10.2",
+      "destination": "wwwroot/lib/jquery/"
+    },
+    {
+      "library": "font-awesome@4.0.3",
+      "destination": "wwwroot/lib/font-awesome/"
+    },
+    {
+      "library": "twitter-bootstrap@3.3.0",
+      "destination": "wwwroot/lib/twitter-bootstrap/"
+    },
+    {
+      "library": "prettyPhoto@3.1.6",
+      "destination": "wwwroot/lib/prettyPhoto/"
+    },
+    {
+      "library": "respond.js@1.4.2",
+      "destination": "wwwroot/lib/respond.js/"
+    },
+    {
+      "library": "scrollup@2.3.2",
+      "destination": "wwwroot/lib/scrollup/"
+    },
+    {
+      "library": "html5shiv@3.7.3",
+      "destination": "wwwroot/lib/html5shiv/"
+    }
+  ]
+}
