@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebStore.DAL;
 using WebStore.DAL.Context;
-using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Infrastructure;
 using WebStore.Infrastructure.Interfaces;
@@ -28,44 +27,49 @@ namespace WebStore
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRouting(options => options.LowercaseUrls = true);
-            services.AddMvc(options => options.Filters.Add(typeof(SomeActionFilter)));
+            services.AddDbContext<WebStoreDB>(options =>
+                options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<WebStoreDBInitializer>();
 
-            services.AddDbContext<WebStoreDB>(options => options
-                .UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<WebStoreDB>()
                 .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings
+                options.Password.RequiredLength = 3;
                 options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = true;
                 options.Password.RequireNonAlphanumeric = false;
-
-                // Lockout settings
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-                options.Lockout.MaxFailedAccessAttempts = 10;
-                options.Lockout.AllowedForNewUsers = true;
+                options.Password.RequiredUniqueChars = 3;
 
                 // User settings
-                options.User.RequireUniqueEmail = true;
+                // opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCD...123457890";
+                options.User.RequireUniqueEmail = false;
+
+                // Lockout settings
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.MaxFailedAccessAttempts = 10;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
             });
 
-            services.ConfigureApplicationCookie(options =>
+            services.ConfigureApplicationCookie(opt =>
             {
-                // Cookie settings
-                //options.Cookie.HttpOnly = true;
-                //options.Cookie.Expiration = TimeSpan.FromDays(150);
-                options.LoginPath = "/Profile/SignIn"; // If the LoginPath is not set here, ASP.NET Core will default to /Account/SignIn
-                options.LogoutPath = "/Profile/SignOut"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
-                options.AccessDeniedPath = "/Account/AccessDenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
-                options.SlidingExpiration = true;
+                opt.Cookie.Name = "WebStore";
+                opt.Cookie.HttpOnly = true;
+                opt.ExpireTimeSpan = TimeSpan.FromDays(30);
+
+                opt.LoginPath = "/Account/Login";
+                opt.LogoutPath = "/Account/Logout";
+                opt.AccessDeniedPath = "/Account/AccessDenied";
+
+                opt.SlidingExpiration = true;
             });
+
+            services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddMvc(options => options.Filters.Add(typeof(SomeActionFilter)));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IEmployeeService, InMemoryEmployeeService>();
@@ -76,8 +80,10 @@ namespace WebStore
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDBInitializer db)
         {
+            db.Initialize();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -86,11 +92,11 @@ namespace WebStore
             app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
 
             app.UseStaticFiles();
+            app.UseDefaultFiles();
 
             app.UseRouting();
 
             app.UseAuthentication();
-
             app.UseAuthorization();
 
             //app.UseMiddleware<TokenMiddleware>();
