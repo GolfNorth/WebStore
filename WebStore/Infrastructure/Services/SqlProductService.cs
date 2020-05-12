@@ -44,7 +44,7 @@ namespace WebStore.Infrastructure.Services
             return query.ToList();
         }
 
-        public Product GetProduct(int id)
+        public Product GetProductById(int id)
         {
             return _context.Products
                 .Include(p => p.Category)
@@ -66,7 +66,7 @@ namespace WebStore.Infrastructure.Services
 
         public void Delete(int id)
         {
-            var dbItem = GetProduct(id);
+            var dbItem = GetProductById(id);
 
             if (dbItem != null)
                 _context.Entry(dbItem).State = EntityState.Deleted;

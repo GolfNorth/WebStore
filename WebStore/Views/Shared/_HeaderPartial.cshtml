@@ -92,6 +92,10 @@
                             <li><a asp-controller="Blog" asp-action="Index">Блог</a></li>
                             <li><a asp-controller="Home" asp-action="ContactUs">Контакты</a></li>
                             <li><a asp-controller="Employee" asp-action="Index">Сотрудники</a></li>
+                            @if (User.IsInRole("Admins"))
+                            {
+                                <li><a asp-controller="Home" asp-action="Index" asp-area="Admin" target="_blank">Админка</a></li>
+                            }
                         </ul>
                     </div>
                 </div>

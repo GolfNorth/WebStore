@@ -10,7 +10,7 @@ namespace WebStore.Infrastructure.Interfaces
         IEnumerable<Category> GetCategories();
         IEnumerable<Brand> GetBrands();
         IEnumerable<Product> GetProducts(ProductFilter filter);
-        Product GetProduct(int id);
+        Product GetProductById(int id);
         void Commit();
         void AddNew(Product product);
         void Delete(int id);
