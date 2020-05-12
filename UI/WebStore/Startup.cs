@@ -7,9 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebStore.Clients.Values;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
-using WebStore.Infrastructure;
+using WebStore.Interfaces.Api;
 using WebStore.Interfaces.Services;
 using WebStore.Services.Data;
 using WebStore.Services.Services.InCookies;
@@ -71,7 +72,7 @@ namespace WebStore
             });
 
             services.AddRouting(options => options.LowercaseUrls = true);
-            services.AddMvc(options => options.Filters.Add(typeof(SomeActionFilter)));
+            services.AddMvc();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IEmployeeService, InMemoryEmployeeService>();
@@ -79,6 +80,8 @@ namespace WebStore
             services.AddScoped<IProductService, SqlProductService>();
             services.AddScoped<ICartService, CookieCartService>();
             services.AddScoped<IOrdersService, SqlOrdersService>();
+
+            services.AddScoped<IValueServices, ValuesClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

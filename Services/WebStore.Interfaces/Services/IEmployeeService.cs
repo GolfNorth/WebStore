@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WebStore.Domain.Models;
 
 namespace WebStore.Interfaces.Services
 {

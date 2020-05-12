@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using WebStore.Domain.Entities;
+using WebStore.Interfaces.Services;
 
 namespace WebStore.Services.Services.InMemory
 {
     public class InMemoryProductService : IProductService
     {
-        private readonly List<Brand> _brands;
-        private readonly List<Category> _categories;
-        private readonly List<Product> _products;
+        private readonly IEnumerable<Brand> _brands;
+        private readonly IEnumerable<Category> _categories;
+        private readonly IEnumerable<Product> _products;
 
         public InMemoryProductService()
         {

@@ -1,4 +1,6 @@
-﻿namespace WebStore.Interfaces.Services
+﻿using WebStore.Domain.ViewModels;
+
+namespace WebStore.Interfaces.Services
 {
     public interface ICartService
     {

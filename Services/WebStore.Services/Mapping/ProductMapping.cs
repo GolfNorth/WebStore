@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using WebStore.Domain.Entities;
+using WebStore.Domain.ViewModels;
 
 namespace WebStore.Services.Mapping
 {

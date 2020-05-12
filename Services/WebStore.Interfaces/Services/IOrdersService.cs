@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using WebStore.Domain.Entities.Orders;
+using WebStore.Domain.ViewModels;
+using WebStore.Domain.ViewModels.Orders;
 
 namespace WebStore.Interfaces.Services
 {

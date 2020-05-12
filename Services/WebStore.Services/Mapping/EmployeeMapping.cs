@@ -1,4 +1,7 @@
-﻿namespace WebStore.Services.Mapping
+﻿using WebStore.Domain.Models;
+using WebStore.Domain.ViewModels;
+
+namespace WebStore.Services.Mapping
 {
     public static class EmployeeMapping
     {
