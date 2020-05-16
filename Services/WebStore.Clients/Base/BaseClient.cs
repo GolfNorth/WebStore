@@ -28,18 +28,21 @@ namespace WebStore.Clients.Base
             };
         }
 
-        protected T Get<T>(string url) where T : new()
+        protected T Get<T>(string url) /*where T : new()*/
         {
             return GetAsync<T>(url).Result;
         }
 
-        protected async Task<T> GetAsync<T>(string url, CancellationToken cancel = default) where T : new()
+        protected async Task<T> GetAsync<T>(string url, CancellationToken cancel = default) /*where T : new()*/
         {
             var response = await Client.GetAsync(url, cancel);
-            if (response.IsSuccessStatusCode)
-                return await response.Content.ReadAsAsync<T>(cancel);
 
-            return new T();
+            //if (response.IsSuccessStatusCode)
+            //    return await response.Content.ReadAsAsync<T>(cancel);
+
+            //return new T();
+
+            return await response.EnsureSuccessStatusCode().Content.ReadAsAsync<T>(cancel);
         }
 
         protected HttpResponseMessage Post<T>(string url, T item)
