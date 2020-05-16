@@ -50,7 +50,6 @@ namespace WebStore
                 options.Password.RequiredUniqueChars = 3;
 
                 // User settings
-                // opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCD...123457890";
                 options.User.RequireUniqueEmail = false;
 
                 // Lockout settings
@@ -80,9 +79,7 @@ namespace WebStore
                 typeof(SqlProductService).Assembly
             );
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IEmployeeService, InMemoryEmployeeService>();
-
             services.AddScoped<IProductService, SqlProductService>();
             services.AddScoped<ICartService, CookieCartService>();
             services.AddScoped<IOrdersService, SqlOrdersService>();
