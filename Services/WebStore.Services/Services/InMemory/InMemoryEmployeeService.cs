@@ -2,44 +2,22 @@
 using System.Linq;
 using WebStore.Domain.Models;
 using WebStore.Interfaces.Services;
+using WebStore.Services.Data;
 
 namespace WebStore.Services.Services.InMemory
 {
     public class InMemoryEmployeeService : IEmployeeService
     {
-        protected List<Employee> Entities;
-
-        public InMemoryEmployeeService()
-        {
-            Entities = new List<Employee>
-            {
-                new Employee
-                {
-                    Id = 1,
-                    FirstName = "Иван",
-                    SecondName = "Иванов",
-                    Patronymic = "Иванович",
-                    Age = 22
-                },
-                new Employee
-                {
-                    Id = 2,
-                    FirstName = "Владислав",
-                    SecondName = "Петров",
-                    Patronymic = "Иванович",
-                    Age = 35
-                }
-            };
-        }
+        private readonly List<Employee> _entities = TestData.Employees;
 
         public IEnumerable<Employee> GetEmployees()
         {
-            return Entities;
+            return _entities;
         }
 
         public Employee GetEmployee(int id)
         {
-            return Entities.FirstOrDefault(e => e.Id == id);
+            return _entities.FirstOrDefault(e => e.Id == id);
         }
 
         public void Commit()
@@ -48,8 +26,8 @@ namespace WebStore.Services.Services.InMemory
 
         public void AddNew(Employee employee)
         {
-            employee.Id = Entities.Max(e => e.Id) + 1;
-            Entities.Add(employee);
+            employee.Id = _entities.Max(e => e.Id) + 1;
+            _entities.Add(employee);
         }
 
         public void Delete(int id)
@@ -59,7 +37,7 @@ namespace WebStore.Services.Services.InMemory
             if (employee is null)
                 return;
 
-            Entities.Remove(employee);
+            _entities.Remove(employee);
         }
     }
 }
