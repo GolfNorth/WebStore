@@ -10,7 +10,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordian" href="#@parentCategory.Name.ToLower()">
+                        <a data-toggle="collapse" data-parent="#accordian" href="#category_@parentCategory.Id">
                             <span class="badge pull-right">
                                 <i class="fa fa-plus"></i>
                             </span>
@@ -18,7 +18,7 @@
                         </a>
                     </h4>
                 </div>
-                <div id="@parentCategory.Name.ToLower()" class="panel-collapse collapse">
+                <div id="category_@parentCategory.Id" class="panel-collapse collapse">
                     <div class="panel-body">
                         <ul>
                             @foreach (var childCategory in parentCategory.ChildCategories)
