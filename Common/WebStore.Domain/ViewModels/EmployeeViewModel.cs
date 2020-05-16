@@ -23,9 +23,5 @@ namespace WebStore.Domain.ViewModels
         [Required(AllowEmptyStrings = false, ErrorMessage = "Возраст является обязательным")]
         [Display(Name = "Возраст")]
         public int Age { get; set; }
-
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Должность является обязательной")]
-        [Display(Name = "Должность")]
-        public string Position { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.Context;
@@ -44,7 +43,7 @@ namespace WebStore.Services.Services.InSQL
             return query.ToList();
         }
 
-        public Product GetProductById(int id)
+        public Product GetProduct(int id)
         {
             return _db.Products
                 .Include(p => p.Category)
@@ -52,24 +51,34 @@ namespace WebStore.Services.Services.InSQL
                 .FirstOrDefault(p => p.Id == id);
         }
 
-        public void Commit()
-        {
-            _db.SaveChanges();
-        }
-
-        public void AddNew(Product entity)
+        public void Add(Product entity)
         {
             if (entity.Id > 0) return;
 
             _db.Products.Add(entity);
         }
 
-        public void Delete(int id)
+        public void Edit(int id, Product product)
         {
-            var dbItem = GetProductById(id);
+            if (GetProduct(id) is null) return;
 
-            if (dbItem != null)
-                _db.Entry(dbItem).State = EntityState.Deleted;
+            _db.Products.Update(product);
+        }
+
+        public bool Delete(int id)
+        {
+            var dbItem = GetProduct(id);
+
+            if (dbItem == null) return false;
+                
+            _db.Entry(dbItem).State = EntityState.Deleted;
+
+            return true;
+        }
+
+        public void SaveChanges()
+        {
+            _db.SaveChanges();
         }
     }
 }

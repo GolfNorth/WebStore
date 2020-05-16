@@ -8,9 +8,10 @@ namespace WebStore.Interfaces.Services
         IEnumerable<Category> GetCategories();
         IEnumerable<Brand> GetBrands();
         IEnumerable<Product> GetProducts(ProductFilter filter);
-        Product GetProductById(int id);
-        void Commit();
-        void AddNew(Product product);
-        void Delete(int id);
+        Product GetProduct(int id);
+        void Add(Product product);
+        void Edit(int id, Product product);
+        bool Delete(int id);
+        void SaveChanges();
     }
 }

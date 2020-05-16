@@ -42,8 +42,7 @@ namespace WebStore.Controllers
                 FirstName = "Иван",
                 SecondName = "Иванов",
                 Patronymic = "Иванович",
-                Age = 22,
-                Position = "Начальник"
+                Age = 22
             };
 
             return Json(employee);

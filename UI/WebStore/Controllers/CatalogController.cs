@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels;
 using WebStore.Interfaces.Services;
-using WebStore.Services.Mapping;
 
 namespace WebStore.Controllers
 {
@@ -38,7 +37,7 @@ namespace WebStore.Controllers
         [Route("product/{id}")]
         public IActionResult View(int id)
         {
-            var product = _productService.GetProductById(id);
+            var product = _productService.GetProduct(id);
 
             return View(_mapper.Map<ProductViewModel>(product));
         }

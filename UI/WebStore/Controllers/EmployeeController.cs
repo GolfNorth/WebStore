@@ -61,23 +61,11 @@ namespace WebStore.Controllers
             if (!ModelState.IsValid) return View(model);
 
             if (model.Id > 0) // если есть Id, то редактируем модель
-            {
-                var dbItem = _employeesService.GetEmployee(model.Id);
-
-                if (dbItem == null)
-                    return NotFound(); // возвращаем результат 404 Not Found
-
-                dbItem.FirstName = model.FirstName;
-                dbItem.SecondName = model.SecondName;
-                dbItem.Age = model.Age;
-                dbItem.Patronymic = model.Patronymic;
-            }
+                _employeesService.Edit(model.Id, _mapper.Map<Employee>(model));
             else // иначе добавляем модель в список
-            {
-                _employeesService.AddNew(_mapper.Map<Employee>(model));
-            }
+                _employeesService.Add(_mapper.Map<Employee>(model));
 
-            _employeesService.Commit(); // станет актуальным позднее (когда добавим БД)
+            _employeesService.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
@@ -89,6 +77,7 @@ namespace WebStore.Controllers
         public IActionResult Delete(int id)
         {
             _employeesService.Delete(id);
+            _employeesService.SaveChanges();
 
             return RedirectToAction("Index");
         }
