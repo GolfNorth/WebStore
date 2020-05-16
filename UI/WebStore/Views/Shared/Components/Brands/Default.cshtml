@@ -9,7 +9,7 @@
             {
                 <li>
                     <a asp-controller="Catalog" asp-action="Index" asp-route-brandId="@brand.Id">
-                        <span class="pull-right">(@ViewData["ProductsByBrand" + brand.Id])</span>@brand.Name</a>
+                        <span class="pull-right">@brand.Products</span>@brand.Name</a>
                 </li>
             }
         </ul>
