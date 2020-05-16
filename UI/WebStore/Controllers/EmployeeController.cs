@@ -1,9 +1,10 @@
 ﻿using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebStore.Domain.Models;
 using WebStore.Domain.ViewModels;
 using WebStore.Interfaces.Services;
-using WebStore.Services.Mapping;
 
 namespace WebStore.Controllers
 {
@@ -12,17 +13,19 @@ namespace WebStore.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeesService;
+        private readonly IMapper _mapper;
 
-        public EmployeeController(IEmployeeService employeesService)
+        public EmployeeController(IEmployeeService employeesService, IMapper mapper)
         {
             _employeesService = employeesService;
+            _mapper = mapper;
         }
 
         [AllowAnonymous]
         // GET: /employees
         public IActionResult Index()
         {
-            return View(_employeesService.GetEmployees().Select(e => e.ToView()));
+            return View(_employeesService.GetEmployees().Select(e => _mapper.Map<EmployeeViewModel>(e)));
         }
 
         [Route("{id}")]
@@ -30,7 +33,7 @@ namespace WebStore.Controllers
         // GET: /employees/{id}
         public IActionResult View(int id)
         {
-            return View(_employeesService.GetEmployee(id).ToView());
+            return View(_mapper.Map<EmployeeViewModel>(_employeesService.GetEmployee(id)));
         }
 
         [Route("edit/{id?}")]
@@ -46,7 +49,7 @@ namespace WebStore.Controllers
 
             if (model == null) return NotFound(); // возвращаем результат 404 Not Found
 
-            return View(model.ToView());
+            return View(_mapper.Map<EmployeeViewModel>(model));
         }
 
         [Route("edit/{id?}")]
@@ -71,7 +74,7 @@ namespace WebStore.Controllers
             }
             else // иначе добавляем модель в список
             {
-                _employeesService.AddNew(model.FromView());
+                _employeesService.AddNew(_mapper.Map<Employee>(model));
             }
 
             _employeesService.Commit(); // станет актуальным позднее (когда добавим БД)

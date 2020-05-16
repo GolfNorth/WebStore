@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels;
@@ -10,10 +11,12 @@ namespace WebStore.Controllers
     public class CatalogController : Controller
     {
         private readonly IProductService _productService;
+        private readonly IMapper _mapper;
 
-        public CatalogController(IProductService productService)
+        public CatalogController(IProductService productService, IMapper mapper)
         {
             _productService = productService;
+            _mapper = mapper;
         }
 
         [Route("shop")]
@@ -26,7 +29,7 @@ namespace WebStore.Controllers
             {
                 BrandId = brandId,
                 CategoryId = categoryId,
-                Products = products.Select(ProductMapping.ToView).OrderBy(p => p.Order)
+                Products = products.Select(p => _mapper.Map<ProductViewModel>(p)).OrderBy(p => p.Order)
             };
 
             return View(model);
@@ -37,7 +40,7 @@ namespace WebStore.Controllers
         {
             var product = _productService.GetProductById(id);
 
-            return View(product.ToView());
+            return View(_mapper.Map<ProductViewModel>(product));
         }
     }
 }
