@@ -1,13 +1,13 @@
 using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using AutoMapper;
+using WebStore.Clients.Employees;
 using WebStore.Clients.Values;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
@@ -79,11 +79,10 @@ namespace WebStore
                 typeof(SqlProductService).Assembly
             );
 
-            services.AddSingleton<IEmployeeService, InMemoryEmployeeService>();
+            services.AddSingleton<IEmployeeService, EmployeesClient>();
             services.AddScoped<IProductService, SqlProductService>();
             services.AddScoped<ICartService, CookieCartService>();
             services.AddScoped<IOrdersService, SqlOrdersService>();
-
             services.AddScoped<IValueServices, ValuesClient>();
         }
 
