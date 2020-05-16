@@ -1,0 +1,16 @@
+﻿@model WebStore.Domain.ViewModels.CatalogViewModel
+@{
+    ViewData["Title"] = "Каталог";
+}
+
+<partial name="Partial/_Advertisement"/>
+<section>
+    <div class="container">
+        <div class="row">
+            <partial name="Partial/_LeftSidebar" />
+            <div class="col-sm-9 padding-right">
+                <partial name="Partial/_FeaturedItems" model="Model.Products" />
+            </div>
+        </div>
+    </div>
+</section>
