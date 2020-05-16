@@ -45,7 +45,7 @@ namespace WebStore.Services.Data
             new Brand {Id = 7, Name = "Rosch creative culture", Order = 6},
         };
 
-        public static IEnumerable<Category> Sections { get; } = new[]
+        public static IEnumerable<Category> Categories { get; } = new[]
         {
             new Category {Id = 1, Name = "Спорт", Order = 0},
             new Category {Id = 2, Name = "Nike", Order = 0, ParentId = 1},

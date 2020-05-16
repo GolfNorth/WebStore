@@ -44,11 +44,11 @@ namespace WebStore.Services.Data
             var db = _db.Database;
             using (var transaction = await db.BeginTransactionAsync().ConfigureAwait(false))
             {
-                await _db.Categories.AddRangeAsync(TestData.Sections).ConfigureAwait(false);
+                await _db.Categories.AddRangeAsync(TestData.Categories).ConfigureAwait(false);
 
-                await db.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Sections] ON");
+                await db.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Categories] ON");
                 await _db.SaveChangesAsync().ConfigureAwait(false);
-                await db.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Sections] OFF");
+                await db.ExecuteSqlRawAsync("SET IDENTITY_INSERT [dbo].[Categories] OFF");
 
                 await transaction.CommitAsync().ConfigureAwait(false);
             }
