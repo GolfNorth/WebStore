@@ -1,4 +1,5 @@
 using System;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -55,6 +56,11 @@ namespace WebStore.ServiceHosting
                 options.Lockout.MaxFailedAccessAttempts = 10;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
             });
+
+            services.AddAutoMapper(
+                typeof(InMemoryEmployeeService).Assembly,
+                typeof(SqlProductService).Assembly
+            );
 
             services.AddSingleton<IEmployeeService, InMemoryEmployeeService>();
             services.AddScoped<IProductService, SqlProductService>();
