@@ -17,11 +17,6 @@ namespace WebStore.Controllers
             _signInManager = signInManager;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         #region Регистрация
 
         [HttpGet]
