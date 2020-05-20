@@ -2,6 +2,7 @@ using System;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -66,17 +67,21 @@ namespace WebStore.ServiceHosting
                 typeof(ProductMapperProfile)
             );
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IEmployeeService, InMemoryEmployeeService>();
             services.AddScoped<IProductService, SqlProductService>();
             services.AddScoped<ICartService, CookieCartService>();
             services.AddScoped<IOrdersService, SqlOrdersService>();
 
+            services.AddRouting(options => options.LowercaseUrls = true);
             services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDBInitializer db)
         {
+            db.Initialize();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
