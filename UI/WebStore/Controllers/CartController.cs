@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using WebStore.Domain.Dtos.Orders;
 using WebStore.Domain.ViewModels;
 using WebStore.Domain.ViewModels.Orders;
 using WebStore.Interfaces.Services;
@@ -57,9 +59,23 @@ namespace WebStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                var orderResult = _ordersService.CreateOrder(model, _cartService.TransformCart(), User.Identity.Name);
+                var orderModel = new CreateOrderModel
+                {
+                    OrderViewModel = model,
+                    OrderItems = _cartService.TransformCart().Items
+                        .Select(item => new OrderItemDto()
+                        {
+                            Id = item.Key.Id,
+                            Price = item.Key.Price,
+                            Quantity = item.Value
+                        })
+                        .ToList()
+                };
+
+                var order = _ordersService.CreateOrder(orderModel, User.Identity.Name);
+
                 _cartService.RemoveAll();
-                return RedirectToAction("OrderConfirmed", new {id = orderResult.Id});
+                return RedirectToAction("OrderConfirmed", new {id = order.Id});
             }
 
             var detailsModel = new OrderDetailsViewModel()

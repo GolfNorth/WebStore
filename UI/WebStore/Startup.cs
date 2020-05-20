@@ -1,18 +1,22 @@
 using System;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebStore.Clients.Employees;
+using WebStore.Clients.Orders;
+using WebStore.Clients.Products;
 using WebStore.Clients.Values;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Api;
 using WebStore.Interfaces.Services;
 using WebStore.Services.Data;
+using WebStore.Services.Mapping;
 using WebStore.Services.Services.InCookies;
 using WebStore.Services.Services.InMemory;
 using WebStore.Services.Services.InSQL;
@@ -49,7 +53,6 @@ namespace WebStore
                 options.Password.RequiredUniqueChars = 3;
 
                 // User settings
-                // opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCD...123457890";
                 options.User.RequireUniqueEmail = false;
 
                 // Lockout settings
@@ -74,13 +77,18 @@ namespace WebStore
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddMvc();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IEmployeeService, InMemoryEmployeeService>();
+            services.AddAutoMapper(
+                typeof(BrandMapperProfile),
+                typeof(CategoryMapperProfile),
+                typeof(EmployeeMapperProfile),
+                typeof(OrderMapperProfile),
+                typeof(ProductMapperProfile)
+            );
 
-            services.AddScoped<IProductService, SqlProductService>();
+            services.AddSingleton<IEmployeeService, EmployeesClient>();
+            services.AddScoped<IProductService, ProductsClient>();
             services.AddScoped<ICartService, CookieCartService>();
-            services.AddScoped<IOrdersService, SqlOrdersService>();
-
+            services.AddScoped<IOrdersService, OrdersClient>();
             services.AddScoped<IValueServices, ValuesClient>();
         }
 

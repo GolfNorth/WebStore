@@ -16,9 +16,10 @@ namespace WebStore.ViewComponents
             _productService = productService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke()
         {
             var categories = GetCategories();
+
             return View(categories);
         }
 

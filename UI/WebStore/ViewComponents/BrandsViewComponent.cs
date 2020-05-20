@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels;
@@ -11,34 +11,26 @@ namespace WebStore.ViewComponents
     public class BrandsViewComponent : ViewComponent
     {
         private readonly IProductService _productService;
+        private readonly IMapper _mapper;
 
-        public BrandsViewComponent(IProductService productService)
+        public BrandsViewComponent(IProductService productService, IMapper mapper)
         {
             _productService = productService;
+            _mapper = mapper;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke() => View(GetBrands());
+
+        private IEnumerable<BrandViewModel> GetBrands()
         {
-            var brands = GetBrands();
+            var brands = _productService
+                .GetBrands()
+                .Select(brand => _mapper.Map<Brand, BrandViewModel>(brand))
+                .ToList();
 
-
-            return View(brands);
-        }
-
-        private List<BrandViewModel> GetBrands()
-        {
-            var brands = new List<BrandViewModel>();
-
-            foreach (var brand in _productService.GetBrands())
+            foreach (var brand in brands)
             {
-                brands.Add(new BrandViewModel()
-                {
-                    Id = brand.Id,
-                    Name = brand.Name,
-                    Order = brand.Order
-                });
-
-                ViewData["ProductsByBrand" + brand.Id] = _productService.GetProducts(
+                brand.Products = _productService.GetProducts(
                     new ProductFilter {BrandId = brand.Id}).Count();
             }
 

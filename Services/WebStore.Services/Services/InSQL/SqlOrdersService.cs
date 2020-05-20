@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.Context;
+using WebStore.Domain.Dtos.Orders;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Domain.Entities.Orders;
-using WebStore.Domain.ViewModels;
-using WebStore.Domain.ViewModels.Orders;
 using WebStore.Interfaces.Services;
 
 namespace WebStore.Services.Services.InSQL
@@ -16,31 +16,30 @@ namespace WebStore.Services.Services.InSQL
     {
         private readonly WebStoreDB _db;
         private readonly UserManager<User> _userManager;
+        private readonly IMapper _mapper;
 
-        public SqlOrdersService(WebStoreDB db, UserManager<User> userManager)
+        public SqlOrdersService(WebStoreDB db, UserManager<User> userManager, IMapper mapper)
         {
             _db = db;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
-        public IEnumerable<Order> GetUserOrders(string userName)
-        {
-            return _db.Orders
-                .Include(o => o.User)
-                .Include(o => o.OrderItems)
-                .Where(x => x.User.UserName == userName)
-                .ToList();
-        }
+        public IEnumerable<OrderDto> GetUserOrders(string userName) => _db.Orders
+            .Include(o => o.User)
+            .Include(o => o.OrderItems)
+            .Where(x => x.User.UserName == userName)
+            .Select(o => _mapper.Map<Order, OrderDto>(o))
+            .AsEnumerable();
 
-        public Order GetOrderById(int id)
-        {
-            return _db.Orders
-                .Include(o => o.User)
-                .Include(o => o.OrderItems)
-                .FirstOrDefault(x => x.Id == id);
-        }
+        public OrderDto GetOrderById(int id) => _mapper.Map<Order, OrderDto>(
+            _db.Orders
+            .Include(o => o.User)
+            .Include(o => o.OrderItems)
+            .FirstOrDefault(x => x.Id == id)
+        );
 
-        public Order CreateOrder(OrderViewModel orderModel, CartViewModel transformCart, string userName)
+        public OrderDto CreateOrder(CreateOrderModel orderModel, string userName)
         {
             var user = _userManager.FindByNameAsync(userName).Result;
 
@@ -48,19 +47,18 @@ namespace WebStore.Services.Services.InSQL
             {
                 var order = new Order()
                 {
-                    Address = orderModel.Address,
-                    Name = orderModel.Name,
+                    Address = orderModel.OrderViewModel.Address,
+                    Name = orderModel.OrderViewModel.Name,
                     Date = DateTime.Now,
-                    Phone = orderModel.Phone,
+                    Phone = orderModel.OrderViewModel.Phone,
                     User = user
                 };
 
                 _db.Orders.Add(order);
 
-                foreach (var item in transformCart.Items)
+                foreach (var item in orderModel.OrderItems)
                 {
-                    var productVm = item.Key;
-                    var product = _db.Products.FirstOrDefault(p => p.Id.Equals(productVm.Id));
+                    var product = _db.Products.FirstOrDefault(p => p.Id == item.Id);
 
                     if (product == null)
                         throw new InvalidOperationException("Продукт не найден в базе");
@@ -68,7 +66,7 @@ namespace WebStore.Services.Services.InSQL
                     var orderItem = new OrderItem()
                     {
                         Price = product.Price,
-                        Quantity = item.Value,
+                        Quantity = item.Quantity,
                         Order = order,
                         Product = product
                     };
@@ -79,7 +77,7 @@ namespace WebStore.Services.Services.InSQL
                 _db.SaveChanges();
                 transaction.Commit();
 
-                return order;
+                return _mapper.Map<Order, OrderDto>(order);
             }
         }
     }
