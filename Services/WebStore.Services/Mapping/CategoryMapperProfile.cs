@@ -9,8 +9,7 @@ namespace WebStore.Services.Mapping
     {
         public CategoryMapperProfile()
         {
-            CreateMap<Category, CategoryDto>();
-            CreateMap<CategoryDto, Category>();
+            CreateMap<Category, CategoryDto>().ReverseMap();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.Context;
@@ -29,15 +30,14 @@ namespace WebStore.Services.Services.InSQL
             .Include(o => o.User)
             .Include(o => o.OrderItems)
             .Where(x => x.User.UserName == userName)
-            .Select(o => _mapper.Map<Order, OrderDto>(o))
+            .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
             .AsEnumerable();
 
-        public OrderDto GetOrderById(int id) => _mapper.Map<Order, OrderDto>(
-            _db.Orders
+        public OrderDto GetOrderById(int id) => _db.Orders
             .Include(o => o.User)
             .Include(o => o.OrderItems)
-            .FirstOrDefault(x => x.Id == id)
-        );
+            .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
+            .FirstOrDefault(x => x.Id == id);
 
         public OrderDto CreateOrder(CreateOrderModel orderModel, string userName)
         {
@@ -77,7 +77,7 @@ namespace WebStore.Services.Services.InSQL
                 _db.SaveChanges();
                 transaction.Commit();
 
-                return _mapper.Map<Order, OrderDto>(order);
+                return _mapper.Map<OrderDto>(order);
             }
         }
     }

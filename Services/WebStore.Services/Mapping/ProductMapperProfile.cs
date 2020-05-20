@@ -21,8 +21,7 @@ namespace WebStore.Services.Mapping
                     opt => opt.MapFrom(src => src.Brand.Name));
             CreateMap<ProductViewModel, ProductDto>();
 
-            CreateMap<Product, ProductDto>();
-            CreateMap<ProductDto, Product>();
+            CreateMap<Product, ProductDto>().ReverseMap();
         }
     }
 }

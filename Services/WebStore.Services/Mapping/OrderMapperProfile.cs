@@ -8,10 +8,8 @@ namespace WebStore.Services.Mapping
     {
         public OrderMapperProfile()
         {
-            CreateMap<Order, OrderDto>();
-            CreateMap<OrderDto, Order>();
-            CreateMap<OrderItem, OrderItemDto>();
-            CreateMap<OrderItemDto, OrderItem>();
+            CreateMap<Order, OrderDto>().ReverseMap();
+            CreateMap<OrderItem, OrderItemDto>().ReverseMap();
         }
     }
 }
