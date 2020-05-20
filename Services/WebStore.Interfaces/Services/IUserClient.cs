@@ -14,3 +14,4 @@ namespace WebStore.Interfaces.Services
         IUserLoginStore<User>
     {
     }
+}
