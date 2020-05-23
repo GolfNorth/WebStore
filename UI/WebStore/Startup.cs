@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using WebStore.Clients.Employees;
 using WebStore.Clients.Identity;
 using WebStore.Clients.Orders;
@@ -16,6 +17,7 @@ using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Api;
 using WebStore.Interfaces.Services;
+using WebStore.Logger;
 using WebStore.Services.Data;
 using WebStore.Services.Mapping;
 using WebStore.Services.Services.InCookies;
@@ -103,8 +105,10 @@ namespace WebStore
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory log)
         {
+            log.AddLog4Net("log4net.config.xml");
+            
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseStatusCodePagesWithReExecute("/error", "?code={0}");
