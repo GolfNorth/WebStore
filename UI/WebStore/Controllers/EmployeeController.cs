@@ -25,7 +25,7 @@ namespace WebStore.Controllers
         // GET: /employees
         public IActionResult Index()
         {
-            return View(_employeesService.GetEmployees().Select(e => _mapper.Map<EmployeeViewModel>(e)));
+            return View(_employeesService.GetEmployees().Select(_mapper.Map<EmployeeViewModel>));
         }
 
         [Route("{id}")]

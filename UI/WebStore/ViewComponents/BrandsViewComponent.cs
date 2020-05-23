@@ -25,8 +25,8 @@ namespace WebStore.ViewComponents
         {
             var brands = _productService
                 .GetBrands()
-                .Select(brand => _mapper.Map<Brand, BrandViewModel>(brand))
-                .ToList();
+                .Select(_mapper.Map<BrandViewModel>)
+                .AsEnumerable();
 
             foreach (var brand in brands)
             {

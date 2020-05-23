@@ -8,8 +8,7 @@ namespace WebStore.Services.Mapping
     {
         public EmployeeMapperProfile()
         {
-            CreateMap<Employee, EmployeeViewModel>();
-            CreateMap<EmployeeViewModel, Employee>();
+            CreateMap<Employee, EmployeeViewModel>().ReverseMap();
         }   
     }
 }

@@ -9,8 +9,7 @@ namespace WebStore.Services.Mapping
     {
         public BrandMapperProfile()
         {
-            CreateMap<Brand, BrandDto>();
-            CreateMap<BrandDto, Brand>();
+            CreateMap<Brand, BrandDto>().ReverseMap();
 
             CreateMap<Brand, BrandViewModel>();
         }

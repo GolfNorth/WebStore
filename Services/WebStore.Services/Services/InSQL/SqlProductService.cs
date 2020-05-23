@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using WebStore.DAL.Context;
 using WebStore.Domain.Dtos.Products;
@@ -44,18 +45,14 @@ namespace WebStore.Services.Services.InSQL
             if (filter.Ids.Count > 0)
                 query = query.Where(p => filter.Ids.Contains(p.Id));
 
-            return query.AsEnumerable().Select(p => _mapper.Map<Product, ProductDto>(p));
+            return query.ProjectTo<ProductDto>(_mapper.ConfigurationProvider).AsEnumerable();
         }
 
-        public ProductDto GetProduct(int id)
-        {
-            var product = _db.Products
-                .Include(p => p.Category)
-                .Include(p => p.Brand)
-                .FirstOrDefault(p => p.Id == id);
-
-            return _mapper.Map<Product, ProductDto>(product);
-        }
+        public ProductDto GetProduct(int id) => _db.Products
+            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
+            .Include(p => p.Category)
+            .Include(p => p.Brand)
+            .FirstOrDefault(p => p.Id == id);
 
         public void Add(Product entity)
         {
