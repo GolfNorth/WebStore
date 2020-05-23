@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace WebStore
 {
@@ -15,7 +16,11 @@ namespace WebStore
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(builder => { builder.UseStartup<Startup>(); });
+                .ConfigureWebHostDefaults(builder => { builder.UseStartup<Startup>(); })
+                .UseSerilog((host, log) => { log
+                    .ReadFrom.Configuration(host.Configuration)
+                    .Enrich.FromLogContext();
+                });
         }
     }
 }
