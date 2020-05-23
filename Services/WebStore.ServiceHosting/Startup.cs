@@ -80,7 +80,7 @@ namespace WebStore.ServiceHosting
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddControllers();
 
-            services.AddSwaggerGen(opt =>
+            services.AddSwaggerGen(/*opt =>
             {
                 opt.SwaggerDoc("WebStore", new OpenApiInfo { Title = "WebStore.API", Version = "v1" });
 
@@ -93,7 +93,7 @@ namespace WebStore.ServiceHosting
                     opt.IncludeXmlComments(domainDocXml);
                 else if (File.Exists(Path.Combine(debugPath, domainDocXml)))
                     opt.IncludeXmlComments(Path.Combine(debugPath, domainDocXml));
-            });
+            }*/);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
