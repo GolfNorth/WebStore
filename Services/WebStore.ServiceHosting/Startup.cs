@@ -9,10 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
+using WebStore.Logger;
 using WebStore.Services.Data;
 using WebStore.Services.Mapping;
 using WebStore.Services.Services.InCookies;
@@ -78,7 +80,7 @@ namespace WebStore.ServiceHosting
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddControllers();
 
-            services.AddSwaggerGen(opt =>
+            services.AddSwaggerGen(/*opt =>
             {
                 opt.SwaggerDoc("WebStore", new OpenApiInfo { Title = "WebStore.API", Version = "v1" });
 
@@ -91,12 +93,14 @@ namespace WebStore.ServiceHosting
                     opt.IncludeXmlComments(domainDocXml);
                 else if (File.Exists(Path.Combine(debugPath, domainDocXml)))
                     opt.IncludeXmlComments(Path.Combine(debugPath, domainDocXml));
-            });
+            }*/);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDBInitializer db)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, WebStoreDBInitializer db, ILoggerFactory log)
         {
+            log.AddLog4Net();
+            
             db.Initialize();
 
             if (env.IsDevelopment())
