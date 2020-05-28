@@ -59,7 +59,7 @@ namespace WebStore.Services.UnitTests.Services
         }
         
         [Fact]
-        public void CartClassItemsCountReturnsCorrectQuantity()
+        public void Cart_ClassItemsCount_ReturnsCorrectQuantity()
         {
             var cart = new Cart
             {
@@ -77,7 +77,7 @@ namespace WebStore.Services.UnitTests.Services
         }
 
         [Fact]
-        public void CartViewModelReturnsCorrectItemsCount()
+        public void CartViewModel_ByDefault_ReturnsCorrectItemsCount()
         {
             var cartViewModel = new CartViewModel
             {
@@ -95,7 +95,7 @@ namespace WebStore.Services.UnitTests.Services
         }
 
         [Fact]
-        public void CartServiceAddToCartWorkCorrect()
+        public void CartService_AddToCart_WorkCorrect()
         {
             _cart.Items.Clear();
 
@@ -110,7 +110,7 @@ namespace WebStore.Services.UnitTests.Services
         }
 
         [Fact]
-        public void CartServiceRemoveFromCartRemoveCorrectItem()
+        public void CartService_RemoveFromCart_RemoveCorrectItem()
         {
             const int itemId = 1;
 
@@ -121,7 +121,7 @@ namespace WebStore.Services.UnitTests.Services
         }
 
         [Fact]
-        public void CartServiceRemoveAllClearCart()
+        public void CartService_RemoveAll_ClearCart()
         {
             _cartService.RemoveAll();
 
@@ -129,7 +129,7 @@ namespace WebStore.Services.UnitTests.Services
         }
 
         [Fact]
-        public void CartServiceDecrementCorrect()
+        public void CartService_Decrement_WorkCorrect()
         {
             const int itemId = 2;
 
@@ -142,7 +142,7 @@ namespace WebStore.Services.UnitTests.Services
         }
 
         [Fact]
-        public void CartServiceRemoveItemWhenDecrementTo0()
+        public void CartService_WhenDecrementTo0_RemoveItem()
         {
             const int itemId = 1;
 
@@ -153,7 +153,7 @@ namespace WebStore.Services.UnitTests.Services
         }
 
         [Fact]
-        public void CartServiceTransformFromCartWorkCorrect()
+        public void CartService_TransformFromCart_WorkCorrect()
         {
             var result = _cartService.TransformCart();
 
