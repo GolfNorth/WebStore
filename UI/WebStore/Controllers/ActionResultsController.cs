@@ -132,7 +132,11 @@ namespace WebStore.Controllers
             var fs = new FileStream(file_path, FileMode.Open);
             var file_type = "image/jpeg";
             var file_name = "My awesome ring.jpg";
-            return File(fs, file_type, file_name);
+            var file = File(fs, file_type, file_name);
+            
+            fs.Close();
+
+            return file;
         }
     }
 }
