@@ -69,8 +69,7 @@ namespace WebStore.ServiceHosting
                 typeof(OrderMapperProfile),
                 typeof(ProductMapperProfile)
             );
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
             services.AddSingleton<IEmployeeService, InMemoryEmployeeService>();
             services.AddScoped<IProductService, SqlProductService>();
             services.AddScoped<ICartStore, CookiesCartStore>();
