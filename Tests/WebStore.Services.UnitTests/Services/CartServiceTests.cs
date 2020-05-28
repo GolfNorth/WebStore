@@ -9,7 +9,7 @@ using WebStore.Interfaces.Services;
 using WebStore.Services.Services;
 using Xunit;
 
-namespace WebStore.Services.Tests.Services
+namespace WebStore.Services.UnitTests.Services
 {
     public class CartServiceTests
     {
