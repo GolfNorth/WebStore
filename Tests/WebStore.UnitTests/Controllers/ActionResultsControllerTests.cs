@@ -6,27 +6,27 @@ using WebStore.Controllers;
 using WebStore.Domain.ViewModels;
 using Xunit;
 
-namespace WebStore.Tests.Controllers
+namespace WebStore.UnitTests.Controllers
 {
     public class ActionResultsControllerTests
     {
-        private readonly IWebHostEnvironment _webHostEnvironment;
-
-        public ActionResultsControllerTests()
+        private static ActionResultsController MakeActionResultsController()
         {
             var webRootPath = Path.Combine(
                 Directory.GetCurrentDirectory(),
                 @"..\..\..\..\..\UI\WebStore\wwwroot"
             );
             
-            _webHostEnvironment = Substitute.For<IWebHostEnvironment>();
-            _webHostEnvironment.WebRootPath.Returns(webRootPath);
+            var webHostEnvironment = Substitute.For<IWebHostEnvironment>();
+            webHostEnvironment.WebRootPath.Returns(webRootPath);
+            
+            return new ActionResultsController(webHostEnvironment);
         }
         
         [Fact]
-        public void IndexReturnsView()
+        public void Index_ByDefault_ReturnsViewResult()
         {
-            var controller = new ActionResultsController(_webHostEnvironment);
+            var controller = MakeActionResultsController();
 
             var result = controller.Index();
 
@@ -34,10 +34,10 @@ namespace WebStore.Tests.Controllers
         }
 
         [Fact]
-        public void MergeContentStringReturnsContent()
+        public void MergeContentString_ByDefaultReturnsContentResultWithMessage()
         {
+            var controller = MakeActionResultsController();
             const string expectedMessage = "Hi, Guest. I'm mere string content result";
-            var controller = new ActionResultsController(_webHostEnvironment);
 
             var result = controller.MergeContentString("Guest");
 
@@ -46,9 +46,9 @@ namespace WebStore.Tests.Controllers
         }
 
         [Fact]
-        public void NothingReturnsEmpty()
+        public void Nothing_ByDefault_ReturnsEmptyResult()
         {
-            var controller = new ActionResultsController(_webHostEnvironment);
+            var controller = MakeActionResultsController();
             
             var result = controller.Nothing();
             
@@ -56,9 +56,9 @@ namespace WebStore.Tests.Controllers
         }
         
         [Fact]
-        public void Nothing204ReturnsNoContent()
+        public void Nothing204_ByDefault_ReturnsNoContentResult()
         {
-            var controller = new ActionResultsController(_webHostEnvironment);
+            var controller = MakeActionResultsController();
             
             var result = controller.Nothing204();
             
@@ -66,8 +66,9 @@ namespace WebStore.Tests.Controllers
         }
 
         [Fact]
-        public void JsonObjectSerializedReturnsJson()
+        public void JsonObjectSerialized_ByDefault_ReturnsJsonResultWithEmployeeViewModel()
         {
+            var controller = MakeActionResultsController();
             var expectedEmployee = new EmployeeViewModel
             {
                 Id = 1,
@@ -76,7 +77,6 @@ namespace WebStore.Tests.Controllers
                 Patronymic = "Иванович",
                 Age = 22
             };
-            var controller = new ActionResultsController(_webHostEnvironment);
             
             var result = controller.JsonObjectSerialized();
             
@@ -90,10 +90,10 @@ namespace WebStore.Tests.Controllers
         }
 
         [Fact]
-        public void GoGoogleRedirectsToGoogle()
+        public void GoGoogle_ByDefault_RedirectsToGoogle()
         {
+            var controller = MakeActionResultsController();
             const string expectedUrl = "https://google.com";
-            var controller = new ActionResultsController(_webHostEnvironment);
             
             var result = controller.GoGoogle();
             
@@ -102,9 +102,9 @@ namespace WebStore.Tests.Controllers
         }
 
         [Fact]
-        public void GoToHomePageRedirectsToHomePage()
+        public void GoToHomePage_ByDefault_RedirectsToHomePage()
         {
-            var controller = new ActionResultsController(_webHostEnvironment);
+            var controller = MakeActionResultsController();
 
             var result = controller.GoToHomePage();
             
@@ -114,9 +114,9 @@ namespace WebStore.Tests.Controllers
         }
         
         [Fact]
-        public void RedirectWithParametersRedirectsToMergeContentString()
+        public void RedirectWithParameters_ByDefault_RedirectsToMergeContentString()
         {
-            var controller = new ActionResultsController(_webHostEnvironment);
+            var controller = MakeActionResultsController();
 
             var result = controller.RedirectWithParameters();
             
@@ -126,9 +126,9 @@ namespace WebStore.Tests.Controllers
         }
         
         [Fact]
-        public void ForbiddenResourceReturnsStatusCode403()
+        public void ForbiddenResource_ByDefault_ReturnsStatusCodeResultWithCode403()
         {
-            var controller = new ActionResultsController(_webHostEnvironment);
+            var controller = MakeActionResultsController();
 
             var result = controller.ForbiddenResource();
             
@@ -137,10 +137,10 @@ namespace WebStore.Tests.Controllers
         }
         
         [Fact]
-        public void NotFoundResourceReturnsNotFound()
+        public void NotFoundResource_ByDefault_ReturnsNotFoundResult()
         {
+            var controller = MakeActionResultsController();
             const string expectedMessage = "Nothing found. Sorry.";
-            var controller = new ActionResultsController(_webHostEnvironment);
 
             var result = controller.NotFoundResource();
             
@@ -150,10 +150,10 @@ namespace WebStore.Tests.Controllers
         }
 
         [Fact]
-        public void AgeCheckReturnsSorry()
+        public void AgeCheck_WhenAgeLessThan18_ReturnsUnauthorizedObjectResultWithMessage()
         {
+            var controller = MakeActionResultsController();
             const string expectedMessage = "Sorry. Adults only";
-            var controller = new ActionResultsController(_webHostEnvironment);
 
             var result = controller.AgeCheck(1);
             
@@ -162,10 +162,10 @@ namespace WebStore.Tests.Controllers
         }
         
         [Fact]
-        public void AgeCheckReturnsWelcome()
+        public void AgeCheck_WhenAgeMoreThan_ReturnsContentResultWithMessage()
         {
+            var controller = MakeActionResultsController();
             const string expectedMessage = "You're welcome";
-            var controller = new ActionResultsController(_webHostEnvironment);
 
             var result = controller.AgeCheck(18);
             
@@ -174,10 +174,10 @@ namespace WebStore.Tests.Controllers
         }
         
         [Fact]
-        public void TellMeItsOkReturnsOk()
+        public void TellMeItsOk_ByDefault_ReturnsOkObjectResultWithMessage()
         {
+            var controller = MakeActionResultsController();
             const string expectedMessage = "Everything is gonna be fine!";
-            var controller = new ActionResultsController(_webHostEnvironment);
 
             var result = controller.TellMeItsOk();
             
@@ -186,9 +186,9 @@ namespace WebStore.Tests.Controllers
         }
         
         [Fact]
-        public void ReallyBadRequestReturnsView()
+        public void ReallyBadRequest_ByDefault_ReturnsViewResult()
         {
-            var controller = new ActionResultsController(_webHostEnvironment);
+            var controller = MakeActionResultsController();
 
             var result = controller.ReallyBadRequest("Not null or empty");
             
@@ -196,10 +196,10 @@ namespace WebStore.Tests.Controllers
         }
         
         [Fact]
-        public void ReallyBadRequestReturnsBadRequest()
+        public void ReallyBadRequest_ByDefault_ReturnsBadRequestObjectResultWithMessage()
         {
+            var controller = MakeActionResultsController();
             const string expectedMessage = "Some parameter was expected";
-            var controller = new ActionResultsController(_webHostEnvironment);
 
             var result = controller.ReallyBadRequest(string.Empty);
             
@@ -208,9 +208,9 @@ namespace WebStore.Tests.Controllers
         }
         
         [Fact]
-        public void GetFileReturnsPhysicalFile()
+        public void GetFile_ByDefault_ReturnsPhysicalFileResult()
         {
-            var controller = new ActionResultsController(_webHostEnvironment);
+            var controller = MakeActionResultsController();
 
             var result = controller.GetFile();
             
@@ -218,9 +218,9 @@ namespace WebStore.Tests.Controllers
         }
         
         [Fact]
-        public void GetBytesReturnsFileContent()
+        public void GetBytes_ByDefault_ReturnsFileContentResult()
         {
-            var controller = new ActionResultsController(_webHostEnvironment);
+            var controller = MakeActionResultsController();
 
             var result = controller.GetBytes();
             
@@ -228,9 +228,9 @@ namespace WebStore.Tests.Controllers
         }
         
         [Fact]
-        public void GetStreamReturnsFileStream()
+        public void GetStream_ByDefault_ReturnsFileStreamResult()
         {
-            var controller = new ActionResultsController(_webHostEnvironment);
+            var controller = MakeActionResultsController();
 
             var result = controller.GetStream();
             

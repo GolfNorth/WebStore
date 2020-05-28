@@ -2,12 +2,12 @@
 using WebStore.Controllers;
 using Xunit;
 
-namespace WebStore.Tests.Controllers
+namespace WebStore.UnitTests.Controllers
 {
     public class HomeControllerTests
     {
         [Fact]
-        public void IndexReturnsView()
+        public void Index_ByDefault_ReturnsView()
         {
             var controller = new HomeController();
 
@@ -17,7 +17,7 @@ namespace WebStore.Tests.Controllers
         }
         
         [Fact]
-        public void ContactUsReturnsView()
+        public void ContactUs_ByDefault_ReturnsView()
         {
             var controller = new HomeController();
 

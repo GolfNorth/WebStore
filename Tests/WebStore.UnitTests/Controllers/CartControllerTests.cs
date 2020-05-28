@@ -10,12 +10,12 @@ using WebStore.Domain.ViewModels.Orders;
 using WebStore.Interfaces.Services;
 using Xunit;
 
-namespace WebStore.Tests.Controllers
+namespace WebStore.UnitTests.Controllers
 {
     public class CartControllerTests
     {
         [Fact]
-        public void CheckOutModelStateInvalidReturnsViewModel()
+        public void CheckOut_ModelStateInvalid_ReturnsViewModel()
         {
             var cartService = Substitute.For<ICartService>();
             var orderService = Substitute.For<IOrdersService>();
@@ -35,7 +35,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [Fact]
-        public void CheckOutCallsServiceAndReturn_Redirect()
+        public void CheckOut_ByDefault_CallsServiceAndReturnRedirect()
         {
             var cartService = Substitute.For<ICartService>();
             cartService.TransformCart().Returns(new CartViewModel

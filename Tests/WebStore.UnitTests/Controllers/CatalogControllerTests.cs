@@ -10,23 +10,21 @@ using WebStore.Interfaces.Services;
 using WebStore.Services.Mapping;
 using Xunit;
 
-namespace WebStore.Tests.Controllers
+namespace WebStore.UnitTests.Controllers
 {
     public class CatalogControllerTests
     {
-        private readonly IMapper _mapper;
-        
-        public CatalogControllerTests()
+        private static IMapper MakeMapper()
         {
             var configuration = new MapperConfiguration(cfg => {
                 cfg.AddProfile<ProductMapperProfile>();
             });
             
-            _mapper = configuration.CreateMapper();
+            return configuration.CreateMapper();
         }
         
         [Fact]
-        public void DetailsReturnsWithCorrectView()
+        public void View_WithId_ReturnsWithCorrectView()
         {
             #region Arrange
 
@@ -61,7 +59,7 @@ namespace WebStore.Tests.Controllers
                 };
             });
             
-            var controller = new CatalogController(productService, _mapper);
+            var controller = new CatalogController(productService, MakeMapper());
 
             #endregion
 
@@ -85,7 +83,7 @@ namespace WebStore.Tests.Controllers
         }
 
         [Fact]
-        public void ShopReturnsCorrectView()
+        public void Index_ByDefault_ReturnsCorrectView()
         {
             var productService = Substitute.For<IProductService>();
             productService.GetProducts(Arg.Any<ProductFilter>()).Returns(new[]
@@ -128,7 +126,7 @@ namespace WebStore.Tests.Controllers
                 }
             });
 
-            var controller = new CatalogController(productService, _mapper);
+            var controller = new CatalogController(productService, MakeMapper());
 
             const int expectedCategoryId = 1;
             const int expectedBrandId = 5;

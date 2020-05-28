@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Dynamic;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebStore.Tests
+namespace WebStore.UnitTests
 {
     public class JsonResultDynamicWrapper : DynamicObject
     {

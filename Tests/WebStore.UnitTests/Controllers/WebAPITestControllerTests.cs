@@ -6,12 +6,12 @@ using WebStore.Controllers;
 using WebStore.Interfaces.Api;
 using Xunit;
 
-namespace WebStore.Tests.Controllers
+namespace WebStore.UnitTests.Controllers
 {
     public class WebAPITestControllerTests
     {
         [Fact]
-        public void IndexReturnsViewWithValues()
+        public void Index_ByDefault_ReturnsViewResultWithValues()
         {
             var expectedResult = new[] { "1", "2", "3" };
             var valueService = Substitute.For<IValueServices>();

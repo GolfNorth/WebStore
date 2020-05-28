@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Logger", "Common\W
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0F066F99-42C8-444D-9774-BD3BE9B7DE39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Tests", "Tests\WebStore.Tests\WebStore.Tests.csproj", "{158610D8-DFF2-434D-A3DA-5C784AA5C3F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.UnitTests", "Tests\WebStore.UnitTests\WebStore.UnitTests.csproj", "{158610D8-DFF2-434D-A3DA-5C784AA5C3F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebStore.Services.Tests", "Tests\WebStore.Services.Tests\WebStore.Services.Tests.csproj", "{38489DC0-DC0F-4CE7-A4CE-3100C6FF82EF}"
 EndProject
