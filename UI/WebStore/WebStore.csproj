@@ -20,6 +20,14 @@
     <EmbeddedResource Remove="Logs\**" />
     <None Remove="Logs\**" />
     <Content Remove="Logs\**" />
+    <Content Update="Views\Shared\Partial\_MainMenu.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Shared\Partial\_ShopMenu.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
