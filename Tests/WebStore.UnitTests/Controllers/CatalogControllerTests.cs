@@ -103,7 +103,7 @@ namespace WebStore.UnitTests.Controllers
                     Category = new CategoryDto
                     {
                         Id = 1,
-                        Name = "Section of product 1"
+                        Name = "Category of product 1"
                     }
                 },
                 new ProductDto
@@ -121,7 +121,7 @@ namespace WebStore.UnitTests.Controllers
                     Category = new CategoryDto
                     {
                         Id = 2,
-                        Name = "Section of product 2"
+                        Name = "Category of product 2"
                     }
                 }
             });
@@ -130,6 +130,30 @@ namespace WebStore.UnitTests.Controllers
 
             const int expectedCategoryId = 1;
             const int expectedBrandId = 5;
+            
+            productService.GetCategory(Arg.Any<int>()).Returns(info =>
+                {
+                    var categoryId = (int) info[0];
+                    
+                    return new CategoryDto()
+                    {
+                        Id = categoryId,
+                        Name = $"Category of product {categoryId}"
+                    };
+                }
+            );
+            
+            productService.GetBrand(Arg.Any<int>()).Returns(info =>
+                {
+                    var brandId = (int) info[0];
+                    
+                    return new BrandDto()
+                    {
+                        Id = brandId,
+                        Name = $"Brand of product {brandId}"
+                    };
+                }
+            );
 
             var result = controller.Index(expectedCategoryId, expectedBrandId);
 
