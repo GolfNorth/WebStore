@@ -49,9 +49,9 @@ namespace WebStore.Services.Services.InSQL
         }
 
         public ProductDto GetProduct(int id) => _db.Products
-            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
             .Include(p => p.Category)
             .Include(p => p.Brand)
+            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
             .FirstOrDefault(p => p.Id == id);
 
         public void Add(Product entity)
