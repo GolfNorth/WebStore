@@ -1,12 +1,6 @@
-﻿@functions
-{
-    bool IsMainPage()
-    {
-        return Equals("Home", ViewContext.RouteData.Values["Controller"]) && Equals("Index", ViewContext.RouteData.Values["Action"]);
-    }
-}
+﻿@model bool 
 
-@if (!IsMainPage())
+@if (!Model)
 {
     <breadcrumb></breadcrumb>
 }

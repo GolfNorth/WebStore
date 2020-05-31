@@ -130,30 +130,6 @@ namespace WebStore.UnitTests.Controllers
 
             const int expectedCategoryId = 1;
             const int expectedBrandId = 5;
-            
-            productService.GetCategory(Arg.Any<int>()).Returns(info =>
-                {
-                    var categoryId = (int) info[0];
-                    
-                    return new CategoryDto()
-                    {
-                        Id = categoryId,
-                        Name = $"Category of product {categoryId}"
-                    };
-                }
-            );
-            
-            productService.GetBrand(Arg.Any<int>()).Returns(info =>
-                {
-                    var brandId = (int) info[0];
-                    
-                    return new BrandDto()
-                    {
-                        Id = brandId,
-                        Name = $"Brand of product {brandId}"
-                    };
-                }
-            );
 
             var result = controller.Index(expectedCategoryId, expectedBrandId);
 
@@ -163,7 +139,6 @@ namespace WebStore.UnitTests.Controllers
             Assert.Equal(2, model.Products.Count());
             Assert.Equal(expectedCategoryId, model.CategoryId);
             Assert.Equal(expectedBrandId, model.BrandId);
-
             Assert.Equal("Brand of product 1", model.Products.First().Brand);
         }
     }
