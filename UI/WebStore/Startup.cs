@@ -2,12 +2,12 @@ using System;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SmartBreadcrumbs.Extensions;
 using WebStore.Clients.Employees;
 using WebStore.Clients.Identity;
 using WebStore.Clients.Orders;
@@ -96,6 +96,16 @@ namespace WebStore
                 typeof(OrderMapperProfile),
                 typeof(ProductMapperProfile)
             );
+            
+            services.AddBreadcrumbs(GetType().Assembly, options =>
+            {
+                options.TagName = "div";
+                options.TagClasses = "breadcrumbs";
+                options.OlClasses = "breadcrumb";
+                options.LiClasses = "";
+                options.ActiveLiClasses = "active";
+                options.SeparatorElement = "";
+            });
 
             services.AddSingleton<IEmployeeService, EmployeesClient>();
             services.AddScoped<IProductService, ProductsClient>();
