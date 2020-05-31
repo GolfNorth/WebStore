@@ -14,7 +14,7 @@ namespace WebStore.UnitTests.Controllers
         {
             var webRootPath = Path.Combine(
                 Directory.GetCurrentDirectory(),
-                @"..\..\..\..\..\UI\WebStore\wwwroot"
+                "..//..//..//..//..//UI//WebStore//wwwroot"
             );
             
             var webHostEnvironment = Substitute.For<IWebHostEnvironment>();
