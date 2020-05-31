@@ -16,12 +16,7 @@ namespace WebStore.ViewComponents
             _productService = productService;
         }
 
-        public IViewComponentResult Invoke()
-        {
-            var categories = GetCategories();
-
-            return View(categories);
-        }
+        public IViewComponentResult Invoke(string categoryId) => View(GetCategories());
 
         private List<CategoryViewModel> GetCategories()
         {

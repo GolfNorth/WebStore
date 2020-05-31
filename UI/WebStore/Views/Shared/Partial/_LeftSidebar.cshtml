@@ -1,7 +1,7 @@
 ﻿<div class="col-sm-3">
     <div class="left-sidebar">
-        <vc:categories></vc:categories>
-        <vc:brands></vc:brands>
+        <vc:categories category-id="@Context.Request.Query["categoryId"]"/>
+        <vc:brands brand-id="@Context.Request.Query["brandId"]"/>
 
         <div class="price-range">
             <!--price-range-->

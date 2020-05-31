@@ -19,7 +19,7 @@ namespace WebStore.ViewComponents
             _mapper = mapper;
         }
 
-        public IViewComponentResult Invoke() => View(GetBrands());
+        public IViewComponentResult Invoke(string brandId) => View(GetBrands());
 
         private IEnumerable<BrandViewModel> GetBrands()
         {
