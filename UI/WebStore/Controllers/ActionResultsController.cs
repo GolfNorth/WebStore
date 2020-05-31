@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.ViewModels;
 
@@ -6,12 +7,19 @@ namespace WebStore.Controllers
 {
     public class ActionResultsController : Controller
     {
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public ActionResultsController(IWebHostEnvironment webHostEnvironment)
+        {
+            _webHostEnvironment = webHostEnvironment;
+        }
+        
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult MereContentString(string name)
+        public IActionResult MergeContentString(string name)
         {
             return Content($"Hi, {name}. I'm mere string content result");
         }
@@ -60,7 +68,7 @@ namespace WebStore.Controllers
 
         public IActionResult RedirectWithParameters()
         {
-            return RedirectToAction("MereContentString", "ActionResults", new {name = "Dear user"});
+            return RedirectToAction("MergeContentString", "ActionResults", new {name = "Dear user"});
         }
 
         public IActionResult ForbiddenResource()
@@ -99,7 +107,7 @@ namespace WebStore.Controllers
         public IActionResult GetFile()
         {
             // Путь к файлу
-            var file_path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/blog/man-two.jpg");
+            var file_path = Path.Combine(_webHostEnvironment.WebRootPath, "images/blog/man-two.jpg");
             // Тип файла - content-type
             var file_type = "image/jpeg";
             // Имя файла - необязательно
@@ -110,7 +118,7 @@ namespace WebStore.Controllers
         // Отправка массива байтов
         public FileResult GetBytes()
         {
-            var file_path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/15.jpg");
+            var file_path = Path.Combine(_webHostEnvironment.WebRootPath, "images/blog/man-two.jpg");
             var mas = System.IO.File.ReadAllBytes(file_path);
             var file_type = "image/jpeg";
             var file_name = "My awesome ring.jpg";
@@ -120,11 +128,15 @@ namespace WebStore.Controllers
         // Отправка потока
         public FileResult GetStream()
         {
-            var file_path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/15.jpg");
+            var file_path = Path.Combine(_webHostEnvironment.WebRootPath, "images/blog/man-two.jpg");
             var fs = new FileStream(file_path, FileMode.Open);
             var file_type = "image/jpeg";
             var file_name = "My awesome ring.jpg";
-            return File(fs, file_type, file_name);
+            var file = File(fs, file_type, file_name);
+            
+            fs.Close();
+
+            return file;
         }
     }
 }

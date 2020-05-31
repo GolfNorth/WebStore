@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,13 +9,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 using WebStore.DAL.Context;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Interfaces.Services;
 using WebStore.Logger;
 using WebStore.Services.Data;
 using WebStore.Services.Mapping;
+using WebStore.Services.Services;
 using WebStore.Services.Services.InCookies;
 using WebStore.Services.Services.InMemory;
 using WebStore.Services.Services.InSQL;
@@ -70,11 +69,11 @@ namespace WebStore.ServiceHosting
                 typeof(OrderMapperProfile),
                 typeof(ProductMapperProfile)
             );
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
             services.AddSingleton<IEmployeeService, InMemoryEmployeeService>();
             services.AddScoped<IProductService, SqlProductService>();
-            services.AddScoped<ICartService, CookieCartService>();
+            services.AddScoped<ICartStore, CookiesCartStore>();
+            services.AddScoped<ICartService, CartService>();
             services.AddScoped<IOrdersService, SqlOrdersService>();
 
             services.AddRouting(options => options.LowercaseUrls = true);
