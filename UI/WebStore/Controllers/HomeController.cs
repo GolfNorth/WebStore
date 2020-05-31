@@ -11,6 +11,8 @@ namespace WebStore.Controllers
             return View();
         }
 
+        [Breadcrumb("Контакты")]
+        [Route("contactus")]
         public IActionResult ContactUs()
         {
             return View();

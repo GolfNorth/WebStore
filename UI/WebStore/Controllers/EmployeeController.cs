@@ -2,12 +2,14 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SmartBreadcrumbs.Attributes;
 using WebStore.Domain.Models;
 using WebStore.Domain.ViewModels;
 using WebStore.Interfaces.Services;
 
 namespace WebStore.Controllers
 {
+    [Breadcrumb("Сотрудники")]
     [Route("employees")]
     [Authorize]
     public class EmployeeController : Controller
@@ -20,7 +22,7 @@ namespace WebStore.Controllers
             _employeesService = employeesService;
             _mapper = mapper;
         }
-
+        
         [AllowAnonymous]
         // GET: /employees
         public IActionResult Index()
@@ -28,6 +30,7 @@ namespace WebStore.Controllers
             return View(_employeesService.GetEmployees().Select(_mapper.Map<EmployeeViewModel>));
         }
 
+        [Breadcrumb("Просмотр")]
         [Route("{id}")]
         [Authorize(Roles = "Admins,Users")]
         // GET: /employees/{id}
@@ -36,6 +39,7 @@ namespace WebStore.Controllers
             return View(_mapper.Map<EmployeeViewModel>(_employeesService.GetEmployee(id)));
         }
 
+        [Breadcrumb("Редактирование")]
         [Route("edit/{id?}")]
         [HttpGet]
         [Authorize(Roles = "Admins")]
