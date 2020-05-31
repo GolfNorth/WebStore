@@ -6,8 +6,10 @@ namespace WebStore.Interfaces.Services
 {
     public interface IProductService
     {
-        IEnumerable<Category> GetCategories();
-        IEnumerable<Brand> GetBrands();
+        IEnumerable<CategoryDto> GetCategories();
+        CategoryDto GetCategory(int id);
+        IEnumerable<BrandDto> GetBrands();
+        BrandDto GetBrand(int id);
         IEnumerable<ProductDto> GetProducts(ProductFilter filter);
         ProductDto GetProduct(int id);
         void Add(Product product);

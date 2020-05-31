@@ -14,9 +14,11 @@ namespace WebStore.Clients.Products
     {
         public ProductsClient(IConfiguration configuration) : base(configuration, WebApi.Products) { }
 
-        public IEnumerable<Category> GetCategories() => Get<IEnumerable<Category>>($"{ServiceAddress}/categories");
+        public IEnumerable<CategoryDto> GetCategories() => Get<IEnumerable<CategoryDto>>($"{ServiceAddress}/categories");
+        public CategoryDto GetCategory(int id) => Get<CategoryDto>($"{ServiceAddress}/categories/{id}");
 
-        public IEnumerable<Brand> GetBrands() => Get<IEnumerable<Brand>>($"{ServiceAddress}/brands");
+        public IEnumerable<BrandDto> GetBrands() => Get<IEnumerable<BrandDto>>($"{ServiceAddress}/brands");
+        public BrandDto GetBrand(int id) => Get<BrandDto>($"{ServiceAddress}/brands/{id}");
 
         public IEnumerable<ProductDto> GetProducts(ProductFilter Filter = null) =>
             Post(ServiceAddress, Filter ?? new ProductFilter())
