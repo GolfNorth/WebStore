@@ -19,10 +19,10 @@ namespace WebStore.ViewComponents
             var isHomePage = string.Equals("Home", controller) && string.Equals("Index", action); 
             
             if (isHomePage)
-                return View(true);
+                return View(false);
             
             if (!string.Equals("Catalog", controller))
-                return View(false);
+                return View(true);
 
             var indexNode = new MvcBreadcrumbNode(
                 "Index",
@@ -104,7 +104,7 @@ namespace WebStore.ViewComponents
                 };
             }
             
-            return View(false);
+            return View(true);
         }
     }
 }
