@@ -16,6 +16,7 @@
     "inputFiles": [
       "wwwroot/js/price-range.js",
       "wwwroot/js/gmaps.js",
+      "wwwroot/js/cart.js",
       "wwwroot/js/main.js"
     ],
     // Optionally specify minification options
