@@ -28,7 +28,7 @@ namespace WebStore.Services.UnitTests.Services
             };
 
             var productService = Substitute.For<IProductService>();
-            productService.GetProducts(Arg.Any<ProductFilter>()).Returns(new List<ProductDto>
+            productService.GetProducts(Arg.Any<ProductFilter>()).Products.Returns(new List<ProductDto>
             {
                 new ProductDto
                 {

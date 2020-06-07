@@ -34,7 +34,7 @@ namespace WebStore.Controllers
             {
                 BrandId = brandId,
                 CategoryId = categoryId,
-                Products = products.Select(_mapper.Map<ProductViewModel>).OrderBy(p => p.Order)
+                Products = products.Products.Select(_mapper.Map<ProductViewModel>).OrderBy(p => p.Order)
             };
 
             return View(model);

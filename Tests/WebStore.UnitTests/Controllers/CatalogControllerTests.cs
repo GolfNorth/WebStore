@@ -86,7 +86,7 @@ namespace WebStore.UnitTests.Controllers
         public void Index_ByDefault_ReturnsCorrectView()
         {
             var productService = Substitute.For<IProductService>();
-            productService.GetProducts(Arg.Any<ProductFilter>()).Returns(new[]
+            productService.GetProducts(Arg.Any<ProductFilter>()).Products.Returns(new[]
             {
                 new ProductDto
                 {
