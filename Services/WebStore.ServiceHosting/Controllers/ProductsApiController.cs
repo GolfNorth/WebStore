@@ -16,10 +16,16 @@ namespace WebStore.ServiceHosting.Controllers
         public ProductsApiController(IProductService productService) => _productService = productService;
 
         [HttpGet("categories")]
-        public IEnumerable<Category> GetCategories() => _productService.GetCategories();
+        public IEnumerable<CategoryDto> GetCategories() => _productService.GetCategories();
+        
+        [HttpGet("categories/{id}")]
+        public CategoryDto GetCategory(int id) => _productService.GetCategory(id);
 
         [HttpGet("brands")]
-        public IEnumerable<Brand> GetBrands() => _productService.GetBrands();
+        public IEnumerable<BrandDto> GetBrands() => _productService.GetBrands();
+        
+        [HttpGet("brands/{id}")]
+        public BrandDto GetBrand(int id) => _productService.GetBrand(id);
 
         [HttpPost]
         public IEnumerable<ProductDto> GetProducts([FromBody] ProductFilter filter = null) => _productService.GetProducts(filter);

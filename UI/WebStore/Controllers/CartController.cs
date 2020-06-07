@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using SmartBreadcrumbs.Attributes;
 using WebStore.Domain.Dtos.Orders;
 using WebStore.Domain.ViewModels;
 using WebStore.Domain.ViewModels.Orders;
@@ -7,6 +8,7 @@ using WebStore.Interfaces.Services;
 
 namespace WebStore.Controllers
 {
+    [Breadcrumb("Корзина")]
     public class CartController : Controller
     {
         private readonly ICartService _cartService;

@@ -21,14 +21,32 @@ namespace WebStore.Services.Services.InSQL
             _mapper = mapper;
         }
 
-        public IEnumerable<Category> GetCategories()
+        public IEnumerable<CategoryDto> GetCategories()
         {
-            return _db.Categories.AsEnumerable();
+            return _db.Categories
+                .ProjectTo<CategoryDto>(_mapper.ConfigurationProvider)
+                .AsEnumerable();
+        }
+        
+        public CategoryDto GetCategory(int id)
+        {
+            var category = _db.Categories.FirstOrDefault(c => c.Id == id);
+
+            return _mapper.Map<CategoryDto>(category);
         }
 
-        public IEnumerable<Brand> GetBrands()
+        public IEnumerable<BrandDto> GetBrands()
         {
-            return _db.Brands.AsEnumerable();
+            return _db.Brands
+                .ProjectTo<BrandDto>(_mapper.ConfigurationProvider)
+                .AsEnumerable();
+        }
+        
+        public BrandDto GetBrand(int id)
+        {
+            var brand = _db.Brands.FirstOrDefault(b => b.Id == id);
+
+            return _mapper.Map<BrandDto>(brand);
         }
 
         public IEnumerable<ProductDto> GetProducts(ProductFilter filter)
@@ -49,9 +67,9 @@ namespace WebStore.Services.Services.InSQL
         }
 
         public ProductDto GetProduct(int id) => _db.Products
-            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
             .Include(p => p.Category)
             .Include(p => p.Brand)
+            .ProjectTo<ProductDto>(_mapper.ConfigurationProvider)
             .FirstOrDefault(p => p.Id == id);
 
         public void Add(Product entity)

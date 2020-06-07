@@ -11,7 +11,7 @@ namespace WebStore.Services.Mapping
         {
             CreateMap<Brand, BrandDto>().ReverseMap();
 
-            CreateMap<Brand, BrandViewModel>();
+            CreateMap<BrandDto, BrandViewModel>().ReverseMap();
         }
     }
 }

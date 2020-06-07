@@ -103,7 +103,7 @@ namespace WebStore.UnitTests.Controllers
                     Category = new CategoryDto
                     {
                         Id = 1,
-                        Name = "Section of product 1"
+                        Name = "Category of product 1"
                     }
                 },
                 new ProductDto
@@ -121,7 +121,7 @@ namespace WebStore.UnitTests.Controllers
                     Category = new CategoryDto
                     {
                         Id = 2,
-                        Name = "Section of product 2"
+                        Name = "Category of product 2"
                     }
                 }
             });
@@ -139,7 +139,6 @@ namespace WebStore.UnitTests.Controllers
             Assert.Equal(2, model.Products.Count());
             Assert.Equal(expectedCategoryId, model.CategoryId);
             Assert.Equal(expectedBrandId, model.BrandId);
-
             Assert.Equal("Brand of product 1", model.Products.First().Brand);
         }
     }

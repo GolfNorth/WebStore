@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SmartBreadcrumbs.Attributes;
 using WebStore.Domain.Entities.Identity;
 using WebStore.Domain.ViewModels.Identity;
 
@@ -19,6 +20,7 @@ namespace WebStore.Controllers
 
         #region Регистрация
 
+        [Breadcrumb("Регистрация", FromAction = "Index", FromController = typeof(HomeController))]
         [HttpGet]
         public IActionResult SignUp()
         {
@@ -52,6 +54,7 @@ namespace WebStore.Controllers
 
         #region Авторизация
 
+        [Breadcrumb("Авторизация", FromAction = "Index", FromController = typeof(HomeController))]
         [HttpGet]
         public IActionResult SignIn()
         {

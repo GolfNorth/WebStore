@@ -19,22 +19,32 @@ namespace WebStore.ViewComponents
             _mapper = mapper;
         }
 
-        public IViewComponentResult Invoke() => View(GetBrands());
+        public IViewComponentResult Invoke(string brandId)
+        {
+            return View(new BrandCompleteViewModel
+            {
+                Brands = GetBrands(),
+                CurrentBrandId = int.TryParse(brandId, out var id) ? id : (int?)null
+            });
+        }
 
         private IEnumerable<BrandViewModel> GetBrands()
         {
-            var brands = _productService
+            return _productService
                 .GetBrands()
-                .Select(_mapper.Map<BrandViewModel>)
+                .Select(brand =>
+                {
+                    var brandViewModel = _mapper.Map<BrandViewModel>(brand);
+                    
+                    brandViewModel.Products = _productService
+                        .GetProducts(
+                            new ProductFilter {BrandId = brandViewModel.Id}
+                        )
+                        .Count();
+                    
+                    return brandViewModel;
+                })
                 .AsEnumerable();
-
-            foreach (var brand in brands)
-            {
-                brand.Products = _productService.GetProducts(
-                    new ProductFilter {BrandId = brand.Id}).Count();
-            }
-
-            return brands;
         }
     }
 }

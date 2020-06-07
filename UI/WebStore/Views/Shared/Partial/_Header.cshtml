@@ -92,18 +92,7 @@
                 </div>
                 <div class="col-sm-8">
                     <div class="shop-menu pull-right">
-                        <ul class="nav navbar-nav">
-                            <li>
-                                <a asp-controller="Profile" asp-action="Wishlist"><i class="fa fa-star"></i> Избранное</a>
-                            </li>
-                            <li>
-                                <a asp-controller="Profile" asp-action="Checkout"><i class="fa fa-crosshairs"></i> Оформить заказ</a>
-                            </li>
-                            <li>
-                                <a asp-controller="Cart" asp-action="Index"><i class="fa fa-shopping-cart"></i> Корзина</a>
-                            </li>
-                            <vc:sign-in-sign-out></vc:sign-in-sign-out>
-                        </ul>
+                        <partial name="Partial/_ShopMenu"/>
                     </div>
                 </div>
             </div>
@@ -124,32 +113,7 @@
                         </button>
                     </div>
                     <div class="mainmenu pull-left">
-                        <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li>
-                                <a asp-controller="Home" asp-action="Index">Главная</a>
-                            </li>
-                            <li>
-                                <a asp-controller="Catalog" asp-action="Index">Каталог</a>
-                            </li>
-                            <li>
-                                <a asp-controller="Blog" asp-action="Index">Блог</a>
-                            </li>
-                            <li>
-                                <a asp-controller="Home" asp-action="ContactUs">Контакты</a>
-                            </li>
-                            <li>
-                                <a asp-controller="Employee" asp-action="Index">Сотрудники</a>
-                            </li>
-                            <li>
-                                <a asp-controller="WebAPITest" asp-action="Index">WebAPI</a>
-                            </li>
-                            @if (User.IsInRole("Admins"))
-                            {
-                                <li>
-                                    <a asp-controller="Home" asp-action="Index" asp-area="Admin" target="_blank">Админка</a>
-                                </li>
-                            }
-                        </ul>
+                        <partial name="Partial/_MainMenu"/>
                     </div>
                 </div>
                 <div class="col-sm-3">
@@ -161,3 +125,7 @@
         </div>
     </div><!--/header-bottom-->
 </header><!--/header-->
+
+<div class="container">
+    <vc:breadcrumbs/>
+</div>

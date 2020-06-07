@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.Domain.ViewModels;
 using WebStore.Interfaces.Services;
@@ -16,19 +15,26 @@ namespace WebStore.ViewComponents
             _productService = productService;
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string categoryId)
         {
-            var categories = GetCategories();
-
-            return View(categories);
+            var currentCategoryId = int.TryParse(categoryId, out var id) ? id : (int?)null;
+            
+            return View(new CategoryCompleteViewModel
+            {
+                Categories = GetCategories(currentCategoryId, out var parentCategoryId),
+                CurrentCategoryId = currentCategoryId,
+                ParentCategoryId = parentCategoryId
+            });
         }
 
-        private List<CategoryViewModel> GetCategories()
+        private IEnumerable<CategoryViewModel> GetCategories(int? categoryId, out int? parentCategoryId)
         {
+            parentCategoryId = null;
+            
             var categories = _productService.GetCategories();
-            // получим и заполним родительские категории
             var parentSections = categories.Where(p => !p.ParentId.HasValue).ToArray();
             var parentCategories = new List<CategoryViewModel>();
+            
             foreach (var parentCategory in parentSections)
                 parentCategories.Add(new CategoryViewModel()
                 {
@@ -37,23 +43,30 @@ namespace WebStore.ViewComponents
                     Order = parentCategory.Order,
                     ParentCategory = null
                 });
-
-            // получим и заполним дочерние категории
-            foreach (var CategoryViewModel in parentCategories)
+            
+            foreach (var parentCategory in parentCategories)
             {
-                var childCategories = categories.Where(c => c.ParentId == CategoryViewModel.Id);
+                var childCategories = categories.Where(c => c.ParentId == parentCategory.Id);
+                
                 foreach (var childCategory in childCategories)
-                    CategoryViewModel.ChildCategories.Add(new CategoryViewModel()
+                {
+                    if (childCategory.Id == categoryId)
+                        parentCategoryId = parentCategory.Id;
+                    
+                    parentCategory.ChildCategories.Add(new CategoryViewModel()
                     {
                         Id = childCategory.Id,
                         Name = childCategory.Name,
                         Order = childCategory.Order,
-                        ParentCategory = CategoryViewModel
+                        ParentCategory = parentCategory
                     });
-                CategoryViewModel.ChildCategories = CategoryViewModel.ChildCategories.OrderBy(c => c.Order).ToList();
+                }
+                
+                parentCategory.ChildCategories = parentCategory.ChildCategories.OrderBy(c => c.Order).ToList();
             }
 
             parentCategories = parentCategories.OrderBy(c => c.Order).ToList();
+
             return parentCategories;
         }
     }

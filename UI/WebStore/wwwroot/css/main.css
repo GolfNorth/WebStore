@@ -2254,3 +2254,8 @@ h2.title {
 .contact-info .social-networks ul li a i { background: none; }
 
 .contact-info .social-networks ul li a:hover { color: #FE980F; }
+
+.category-products ul li.active,
+.brands_products ul li.active {
+    text-decoration: underline
+}

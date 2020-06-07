@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SmartBreadcrumbs.Attributes;
 
 namespace WebStore.Controllers
 {
+    [Breadcrumb("Блог")]
     public class BlogController : Controller
     {
-        // GET
         public IActionResult Index()
         {
             return View("Page");
@@ -15,6 +16,7 @@ namespace WebStore.Controllers
             return View();
         }
 
+        [Breadcrumb("Запись")]
         public IActionResult View(int id)
         {
             return View();

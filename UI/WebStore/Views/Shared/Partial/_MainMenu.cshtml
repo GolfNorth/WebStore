@@ -1,0 +1,26 @@
+﻿<ul class="nav navbar-nav collapse navbar-collapse">
+    <li>
+        <a is-active-route asp-controller="Home" asp-action="Index">Главная</a>
+    </li>
+    <li>
+        <a is-active-route ignore-action asp-controller="Catalog" asp-action="Index">Каталог</a>
+    </li>
+    <li>
+        <a is-active-route ignore-action asp-controller="Blog" asp-action="Index">Блог</a>
+    </li>
+    <li>
+        <a is-active-route asp-controller="Home" asp-action="ContactUs">Контакты</a>
+    </li>
+    <li>
+        <a is-active-route ignore-action asp-controller="Employee" asp-action="Index">Сотрудники</a>
+    </li>
+    <li>
+        <a is-active-route asp-controller="WebAPITest" asp-action="Index">WebAPI</a>
+    </li>
+    @if (User.IsInRole("Admins"))
+    {
+        <li>
+            <a asp-controller="Home" asp-action="Index" asp-area="Admin" target="_blank">Админка</a>
+        </li>
+    }
+</ul>
