@@ -28,28 +28,32 @@ namespace WebStore.Services.UnitTests.Services
             };
 
             var productService = Substitute.For<IProductService>();
-            productService.GetProducts(Arg.Any<ProductFilter>()).Products.Returns(new List<ProductDto>
+            productService.GetProducts(Arg.Any<ProductFilter>()).Returns(new PageProductsDto
             {
-                new ProductDto
+                Products = new List<ProductDto>
                 {
-                    Id = 1,
-                    Name = "Product 1",
-                    Price = 1.1m,
-                    Order = 0,
-                    ImageUrl = "Product1.png",
-                    Brand = new BrandDto {Id = 1, Name = "Brand 1"},
-                    Category = new CategoryDto {Id = 1, Name = "Section 1"}
+                    new ProductDto
+                    {
+                        Id = 1,
+                        Name = "Product 1",
+                        Price = 1.1m,
+                        Order = 0,
+                        ImageUrl = "Product1.png",
+                        Brand = new BrandDto {Id = 1, Name = "Brand 1"},
+                        Category = new CategoryDto {Id = 1, Name = "Section 1"}
+                    },
+                    new ProductDto
+                    {
+                        Id = 2,
+                        Name = "Product 2",
+                        Price = 2.2m,
+                        Order = 0,
+                        ImageUrl = "Product2.png",
+                        Brand = new BrandDto {Id = 2, Name = "Brand 2"},
+                        Category = new CategoryDto {Id = 2, Name = "Section 2"}
+                    },
                 },
-                new ProductDto
-                {
-                    Id = 2,
-                    Name = "Product 2",
-                    Price = 2.2m,
-                    Order = 0,
-                    ImageUrl = "Product2.png",
-                    Brand = new BrandDto {Id = 2, Name = "Brand 2"},
-                    Category = new CategoryDto {Id = 2, Name = "Section 2"}
-                },
+                TotalCount = 2
             });
 
             var cartStore = Substitute.For<ICartStore>();
