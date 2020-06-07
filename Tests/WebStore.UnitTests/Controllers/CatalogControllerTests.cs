@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using NSubstitute;
 using WebStore.Controllers;
 using WebStore.Domain.Dtos.Products;
@@ -21,6 +22,11 @@ namespace WebStore.UnitTests.Controllers
             });
             
             return configuration.CreateMapper();
+        }
+
+        private static IConfiguration MakeConfiguration()
+        {
+            return Substitute.For<IConfiguration>();
         }
         
         [Fact]
@@ -59,7 +65,7 @@ namespace WebStore.UnitTests.Controllers
                 };
             });
             
-            var controller = new CatalogController(productService, MakeMapper());
+            var controller = new CatalogController(productService, MakeMapper(), MakeConfiguration());
 
             #endregion
 
@@ -126,7 +132,7 @@ namespace WebStore.UnitTests.Controllers
                 }
             });
 
-            var controller = new CatalogController(productService, MakeMapper());
+            var controller = new CatalogController(productService, MakeMapper(), MakeConfiguration());
 
             const int expectedCategoryId = 1;
             const int expectedBrandId = 5;

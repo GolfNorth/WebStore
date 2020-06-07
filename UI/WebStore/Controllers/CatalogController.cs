@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using SmartBreadcrumbs.Nodes;
 using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels;
@@ -12,29 +13,40 @@ namespace WebStore.Controllers
     {
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
-        private MvcBreadcrumbNode _indexNode;
+        private readonly IConfiguration _configuration;
 
-        public CatalogController(IProductService productService, IMapper mapper)
+        public CatalogController(IProductService productService, IMapper mapper, IConfiguration configuration)
         {
             _productService = productService;
             _mapper = mapper;
-            _indexNode = new MvcBreadcrumbNode(
-                "Index",
-                "Catalog",
-                "Каталог");
+            _configuration = configuration;
         }
 
         [Route("shop")]
-        public IActionResult Index(int? categoryId, int? brandId)
+        public IActionResult Index(int? categoryId, int? brandId, int page = 1)
         {
+            var pageSize = int.TryParse(_configuration["PageSize"], out var size) ? size : (int?) null;
+            
             var products = _productService.GetProducts(
-                new ProductFilter {BrandId = brandId, CategoryId = categoryId});
+                new ProductFilter
+                {
+                    BrandId = brandId, 
+                    CategoryId = categoryId,
+                    PageSize = pageSize,
+                    Page = page
+                });
 
             var model = new CatalogViewModel()
             {
                 BrandId = brandId,
                 CategoryId = categoryId,
-                Products = products.Products.Select(_mapper.Map<ProductViewModel>).OrderBy(p => p.Order)
+                Products = products.Products.Select(_mapper.Map<ProductViewModel>).OrderBy(p => p.Order),
+                PageViewModel = new PageViewModel
+                {
+                    PageSize = pageSize ?? 0,
+                    PageNumber = page,
+                    TotalItems = products.TotalCount
+                }
             };
 
             return View(model);
