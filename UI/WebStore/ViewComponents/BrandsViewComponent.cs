@@ -40,6 +40,7 @@ namespace WebStore.ViewComponents
                         .GetProducts(
                             new ProductFilter {BrandId = brandViewModel.Id}
                         )
+                        .Products
                         .Count();
                     
                     return brandViewModel;

@@ -51,7 +51,7 @@
                             </h4>
                             <p>Web ID: @item.Id</p>
                         </td>
-                        <td class="cart_price">
+                        <td class="cart_price" data-price="@item.Price">
                             <p>@item.Price.ToString("C")</p>
                         </td>
                         <td class="cart_quantity">
@@ -60,6 +60,7 @@
                                    asp-action="AddToCart"
                                    asp-route-id="@item.Id"
                                    asp-route-returnUrl="@Context.Request.Path"
+                                   data-id="@item.Id"
                                    class="cart_quantity_up">
                                     +
                                 </a>
@@ -68,19 +69,23 @@
                                 <a asp-controller="Cart"
                                    asp-action="DecrementFromCart"
                                    asp-route-id="@item.Id"
+                                   data-id="@item.Id"
                                    class="cart_quantity_down">
                                     -
                                 </a>
                             </div>
                         </td>
                         <td class="cart_total">
-                            @((itemsCount * item.Price).ToString("C"))
+                            <p class="cart_total_price" data-price="@(item.Price * itemsCount)">
+                                @((item.Price * itemsCount).ToString("C"))
+                            </p>
                         </td>
                         <td class="cart_delete">
                             <a class="cart_quantity_delete"
                                asp-controller="Cart"
                                asp-action="RemoveFromCart"
-                               asp-route-id="@item.Id">
+                               asp-route-id="@item.Id"
+                               data-id="@item.Id">
                                 <i class="fa fa-times"></i>
                             </a>
 

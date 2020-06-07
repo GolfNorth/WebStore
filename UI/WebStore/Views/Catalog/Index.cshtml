@@ -10,6 +10,12 @@
             <partial name="Partial/_LeftSidebar" />
             <div class="col-sm-9 padding-right">
                 <partial name="Partial/_FeaturedItems" model="Model.Products" />
+                
+                <paging page-model="Model.PageViewModel"
+                        page-action="Index"
+                        page-url-SectionId="@Model.CategoryId"
+                        page-url-BrandId="@Model.BrandId">
+                </paging>
             </div>
         </div>
     </div>

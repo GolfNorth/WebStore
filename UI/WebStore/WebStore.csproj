@@ -73,4 +73,8 @@
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Shared\Components\Cart\Default.cshtml" />
+  </ItemGroup>
+
 </Project>

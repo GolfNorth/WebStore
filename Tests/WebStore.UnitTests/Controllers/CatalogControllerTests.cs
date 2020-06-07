@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using NSubstitute;
 using WebStore.Controllers;
 using WebStore.Domain.Dtos.Products;
@@ -21,6 +23,11 @@ namespace WebStore.UnitTests.Controllers
             });
             
             return configuration.CreateMapper();
+        }
+
+        private static IConfiguration MakeConfiguration()
+        {
+            return Substitute.For<IConfiguration>();
         }
         
         [Fact]
@@ -59,7 +66,7 @@ namespace WebStore.UnitTests.Controllers
                 };
             });
             
-            var controller = new CatalogController(productService, MakeMapper());
+            var controller = new CatalogController(productService, MakeMapper(), MakeConfiguration());
 
             #endregion
 
@@ -86,47 +93,49 @@ namespace WebStore.UnitTests.Controllers
         public void Index_ByDefault_ReturnsCorrectView()
         {
             var productService = Substitute.For<IProductService>();
-            productService.GetProducts(Arg.Any<ProductFilter>()).Returns(new[]
+            productService.GetProducts(Arg.Any<ProductFilter>()).Returns(new PageProductsDto
             {
-                new ProductDto
-                {
-                    Id = 1,
-                    Name = "Product 1",
-                    Order = 0,
-                    Price = 10m,
-                    ImageUrl = "Product1.png",
-                    Brand = new BrandDto
+                Products = new List<ProductDto>{
+                    new ProductDto
                     {
                         Id = 1,
-                        Name = "Brand of product 1"
+                        Name = "Product 1",
+                        Order = 0,
+                        Price = 10m,
+                        ImageUrl = "Product1.png",
+                        Brand = new BrandDto
+                        {
+                            Id = 1,
+                            Name = "Brand of product 1"
+                        },
+                        Category = new CategoryDto
+                        {
+                            Id = 1,
+                            Name = "Category of product 1"
+                        }
                     },
-                    Category = new CategoryDto
-                    {
-                        Id = 1,
-                        Name = "Category of product 1"
-                    }
-                },
-                new ProductDto
-                {
-                    Id = 2,
-                    Name = "Product 2",
-                    Order = 0,
-                    Price = 20m,
-                    ImageUrl = "Product2.png",
-                    Brand = new BrandDto
+                    new ProductDto
                     {
                         Id = 2,
-                        Name = "Brand of product 2"
-                    },
-                    Category = new CategoryDto
-                    {
-                        Id = 2,
-                        Name = "Category of product 2"
+                        Name = "Product 2",
+                        Order = 0,
+                        Price = 20m,
+                        ImageUrl = "Product2.png",
+                        Brand = new BrandDto
+                        {
+                            Id = 2,
+                            Name = "Brand of product 2"
+                        },
+                        Category = new CategoryDto
+                        {
+                            Id = 2,
+                            Name = "Category of product 2"
+                        }
                     }
                 }
             });
 
-            var controller = new CatalogController(productService, MakeMapper());
+            var controller = new CatalogController(productService, MakeMapper(), MakeConfiguration());
 
             const int expectedCategoryId = 1;
             const int expectedBrandId = 5;

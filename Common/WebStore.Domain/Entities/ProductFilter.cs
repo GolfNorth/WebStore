@@ -18,5 +18,9 @@ namespace WebStore.Domain.Entities
         public int? BrandId { get; set; }
 
         public List<int> Ids { get; set; } = new List<int>();
+        
+        public int Page { get; set; }
+
+        public int? PageSize { get; set; }
     }
 }

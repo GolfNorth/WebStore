@@ -49,7 +49,7 @@ namespace WebStore.Services.Services.InSQL
             return _mapper.Map<BrandDto>(brand);
         }
 
-        public IEnumerable<ProductDto> GetProducts(ProductFilter filter)
+        public PageProductsDto GetProducts(ProductFilter filter = null)
         {
             var query = _db.Products
                 .Include(p => p.Category)
@@ -63,7 +63,19 @@ namespace WebStore.Services.Services.InSQL
             if (filter.Ids.Count > 0)
                 query = query.Where(p => filter.Ids.Contains(p.Id));
 
-            return query.ProjectTo<ProductDto>(_mapper.ConfigurationProvider).AsEnumerable();
+            var totalCount = query.Count();
+            if (filter?.PageSize != null)
+            {
+                query = query
+                    .Skip((filter.Page - 1) * (int) filter.PageSize)
+                    .Take((int) filter.PageSize);
+            }
+
+            return new PageProductsDto
+            {
+                Products = query.ProjectTo<ProductDto>(_mapper.ConfigurationProvider).AsEnumerable(),
+                TotalCount = totalCount
+            };
         }
 
         public ProductDto GetProduct(int id) => _db.Products
