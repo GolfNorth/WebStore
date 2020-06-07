@@ -44,7 +44,7 @@
         var container = $("#cart-container");
         $.get(Cart._properties.getCartViewLink)
             .done(function (cartHtml) {
-                container.html(cartHtml);
+                container.html(cartHtml.replace('<li id="cart-container">','').replace('</li>',''));
             })
             .fail(function () { console.log("refreshCartView fail"); });
     },

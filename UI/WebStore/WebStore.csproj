@@ -20,7 +20,6 @@
     <EmbeddedResource Remove="Logs\**" />
     <None Remove="Logs\**" />
     <Content Remove="Logs\**" />
-    <Content Remove="Views\Shared\Components\Cart\Default.cshtml" />
     <Content Update="Views\Shared\Partial\_MainMenu.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -75,7 +74,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Shared\Components\Cart\Default.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Components\Cart\Default.cshtml" />
   </ItemGroup>
 
 </Project>
