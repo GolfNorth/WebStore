@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
-using SmartBreadcrumbs.Nodes;
+using WebStore.Domain.Dtos.Products;
 using WebStore.Domain.Entities;
 using WebStore.Domain.ViewModels;
 using WebStore.Interfaces.Services;
@@ -14,6 +16,7 @@ namespace WebStore.Controllers
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private const string PageSize = "PageSize";
 
         public CatalogController(IProductService productService, IMapper mapper, IConfiguration configuration)
         {
@@ -25,7 +28,7 @@ namespace WebStore.Controllers
         [Route("shop")]
         public IActionResult Index(int? categoryId, int? brandId, int page = 1)
         {
-            var pageSize = int.TryParse(_configuration["PageSize"], out var size) ? size : (int?) null;
+            var pageSize = int.TryParse(_configuration[PageSize], out var size) ? size : (int?) null;
             
             var products = _productService.GetProducts(
                 new ProductFilter
@@ -59,5 +62,28 @@ namespace WebStore.Controllers
             
             return View(_mapper.Map<ProductViewModel>(product));
         }
+        
+        #region API
+
+        public IActionResult GetFilteredItems(int? sectionId, int? brandId, int page)
+        {
+            var products =
+                GetProducts(sectionId, brandId, page)
+                    .Select(_mapper.Map<ProductViewModel>)
+                    .OrderBy(p => p.Order);
+            return PartialView("Partial/_FeaturedItems", products);
+        }
+
+        private IEnumerable<ProductDto> GetProducts(int? catalogId, int? brandId, int page) =>
+            _productService.GetProducts(new ProductFilter
+                {
+                    CategoryId = catalogId,
+                    BrandId = brandId,
+                    Page = page,
+                    PageSize = int.Parse(_configuration[PageSize])
+                })
+                .Products;
+
+        #endregion
     }
 }

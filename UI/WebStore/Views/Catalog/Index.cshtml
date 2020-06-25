@@ -9,8 +9,10 @@
         <div class="row">
             <partial name="Partial/_LeftSidebar" />
             <div class="col-sm-9 padding-right">
-                <partial name="Partial/_FeaturedItems" model="Model.Products" />
-                
+                <div id="catalog-items-conatiner">
+                    <partial name="Partial/_FeaturedItems" model="@Model.Products" />
+                </div>
+
                 <paging page-model="Model.PageViewModel"
                         page-action="Index"
                         page-url-SectionId="@Model.CategoryId"
@@ -20,3 +22,15 @@
         </div>
     </div>
 </section>
+
+@section Scripts{
+    <script src="~/lib/jquery-loading-overlay/loadingoverlay.min.js"></script>
+    <script src="~/js/catalog.js" asp-append-version="true"></script>
+    <script>
+        $(function() {
+            Catalog.init({
+                getUrl: "@Url.Action("GetFilteredItems","Catalog")"
+            });
+        })
+    </script>
+} 
